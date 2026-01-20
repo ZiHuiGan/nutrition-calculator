@@ -1,0 +1,3095 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>减脂期营养计算器</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon.png">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="减脂期营养计算器 - 科学计算每日营养需求">
+    <meta property="og:description" content="根据身高体重自动计算减脂期每日碳水、蛋白质需求，推荐食物搭配，助力科学减脂">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-app-url.vercel.app">
+    <meta property="og:image" content="https://your-app-url.vercel.app/icons/icon-512.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="减脂期营养计算器">
+    <meta name="twitter:description" content="科学计算减脂期每日营养需求，推荐食物搭配">
+    <meta name="twitter:image" content="https://your-app-url.vercel.app/icons/icon-512.png">
+    
+    <!-- WeChat / QQ -->
+    <meta itemprop="name" content="减脂期营养计算器">
+    <meta itemprop="description" content="根据身高体重自动计算减脂期每日碳水、蛋白质需求">
+    <meta itemprop="image" content="https://your-app-url.vercel.app/icons/icon-512.png">
+    
+    <!-- PWA meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="营养计算器">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #000000;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #000000;
+            padding: 60px 40px 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .header p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .input-section {
+            background: #1c1c1e;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            align-items: flex-end;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .input-group::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .input-group::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+        }
+
+        .input-group::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .input-item {
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 auto;
+            min-width: 140px;
+        }
+
+        .input-item.quota-group {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .input-item.quota-group > div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-item label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            letter-spacing: 0.2px;
+        }
+
+        .input-item input,
+        .input-item select {
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            transition: all 0.2s ease;
+            font-weight: 400;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='rgba(255,255,255,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .input-item select option {
+            background: #1c1c1e;
+            color: #ffffff;
+        }
+
+        .input-item input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .input-item input:focus,
+        .input-item select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .input-item input[readonly] {
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: not-allowed;
+        }
+
+        .input-hint {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
+        }
+
+        .calculate-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .summary {
+            background: #1c1c1e;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary h2 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-item .label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+
+        .summary-item .value {
+            font-size: 36px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .summary-item .unit {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        .meal-distribution {
+            background: #1c1c1e;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meal-distribution h3 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: -0.3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .manual-adjust-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .toggle-switch.active {
+            background: #ffffff;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+            background: #000000;
+        }
+
+        .meal-adjust-controls {
+            display: none;
+            margin-top: 24px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meal-adjust-controls.show {
+            display: block;
+        }
+
+        .adjust-meal-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .adjust-meal-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .adjust-meal-label {
+            min-width: 100px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .adjust-input-group {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .adjust-input-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .adjust-input-item label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            min-width: 50px;
+        }
+
+        .adjust-input-item input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .adjust-input-item input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .adjust-summary {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+
+        .adjust-summary.error {
+            color: rgba(255, 100, 100, 0.8);
+        }
+
+        .adjust-summary.success {
+            color: rgba(100, 255, 100, 0.8);
+        }
+
+        .meal-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .meal-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .meal-card.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .meal-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+            letter-spacing: 0.2px;
+        }
+
+        .meal-amount {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .food-section {
+            margin-bottom: 40px;
+            display: none !important;
+        }
+
+        .food-section.show {
+            display: block !important;
+        }
+
+        .food-section h3 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: -0.3px;
+        }
+
+        .selected-foods-section {
+            background: #1c1c1e;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .selected-foods-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .selected-foods-header h4 {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .selected-foods-summary {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .selected-foods-summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .selected-foods-summary-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .selected-foods-summary-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .selected-foods-summary-value.target-met {
+            color: #64ff64;
+        }
+
+        .selected-foods-summary-value.target-exceeded {
+            color: #ff6464;
+        }
+
+        .selected-foods-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .selected-food-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .selected-food-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .selected-food-name {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .selected-food-nutrition {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .selected-food-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .selected-food-quantity {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .selected-food-quantity input {
+            width: 100px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .selected-food-quantity input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+
+        .delete-food-btn {
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid rgba(255, 100, 100, 0.3);
+            color: #ff6464;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .delete-food-btn:hover {
+            background: rgba(255, 100, 100, 0.3);
+            border-color: rgba(255, 100, 100, 0.4);
+        }
+
+        .food-card.addable {
+            cursor: pointer;
+        }
+
+        .food-card.addable:hover {
+            background: rgba(100, 255, 100, 0.1);
+            border-color: rgba(100, 255, 100, 0.3);
+        }
+
+        .food-card.addable::after {
+            content: "点击添加";
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 11px;
+            color: rgba(100, 255, 100, 0.8);
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+
+        .food-hint {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .food-search-container {
+            margin-bottom: 24px;
+        }
+
+        .food-search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .food-search-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .food-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .food-card.highlight {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .food-card.hidden {
+            display: none;
+        }
+
+        .food-category.hidden {
+            display: none;
+        }
+
+        .search-results-info {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .food-category {
+            margin-bottom: 40px;
+        }
+
+        .food-category h4 {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .food-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .food-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .food-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-size: 16px;
+            letter-spacing: 0.2px;
+        }
+
+        .food-amount {
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .food-info {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+        }
+
+        .gi-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin-left: 8px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .gi-high {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .gi-medium {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .gi-low {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .note {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .note strong {
+            color: #ffffff;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .note ul {
+            margin-left: 20px;
+        }
+
+        .note li {
+            margin-bottom: 8px;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .input-group {
+                flex-wrap: wrap;
+            }
+
+            .input-item {
+                min-width: 100%;
+            }
+
+            .input-item.quota-group {
+                min-width: 100%;
+            }
+
+            .header {
+                padding: 40px 20px 30px;
+                padding-top: max(40px, env(safe-area-inset-top, 40px));
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .content {
+                padding: 30px 20px;
+                padding-bottom: max(30px, env(safe-area-inset-bottom, 30px));
+            }
+
+            .input-section {
+                padding: 30px 20px;
+            }
+
+            /* 确保按钮足够大，易于触摸 */
+            .calculate-btn {
+                min-height: 48px;
+                padding: 16px 24px;
+                font-size: 18px;
+            }
+
+            /* 输入框和选择框优化 */
+            input[type="number"],
+            input[type="text"],
+            select {
+                min-height: 48px;
+                font-size: 16px; /* 防止iOS自动缩放 */
+                padding: 12px 16px;
+            }
+
+            /* 食物卡片触摸优化 */
+            .food-card {
+                min-height: 120px;
+                padding: 20px;
+            }
+
+            .meal-card {
+                min-height: 100px;
+                padding: 20px;
+            }
+
+            /* 删除按钮优化 */
+            .delete-food-btn {
+                min-height: 44px;
+                min-width: 60px;
+                padding: 10px 16px;
+            }
+
+            /* 数量输入框优化 */
+            .selected-food-quantity input {
+                min-height: 44px;
+                font-size: 16px;
+            }
+
+            /* 字体大小优化 */
+            .food-name {
+                font-size: 18px;
+            }
+
+            .selected-food-name {
+                font-size: 18px;
+            }
+
+            /* 触摸目标间距 */
+            .selected-food-item {
+                gap: 16px;
+                padding: 20px 16px;
+            }
+
+            /* 防止双击缩放 */
+            * {
+                touch-action: manipulation;
+            }
+        }
+
+        /* iPhone X 及以上安全区域适配 */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>减脂期营养计算器</h1>
+            <p>根据你的身高体重，计算减脂期需要的蛋白质和碳水，以及对应食物的质量</p>
+        </div>
+
+        <div class="content">
+            <div class="input-section">
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>训练日类型</label>
+                        <select id="dayType" onchange="updateTrainingPlanOptions(); autoCalculateQuota();">
+                            <option value="training">力训日</option>
+                            <option value="rest">休息日</option>
+                        </select>
+                    </div>
+                    <div class="input-item">
+                        <label>训练方案</label>
+                        <select id="trainingPlan" onchange="updateMealDistribution(); autoCalculateQuota();">
+                            <option value="morning_early">早饭后练（早起版）</option>
+                            <option value="morning_late">早饭后练（晚起版）</option>
+                            <option value="before_lunch">午饭前练</option>
+                            <option value="after_lunch">午饭后练</option>
+                            <option value="before_dinner">晚饭前练</option>
+                            <option value="after_dinner">晚饭后练</option>
+                            <option value="night_training">夜里练</option>
+                        </select>
+                    </div>
+                    <div class="input-item">
+                        <label>性别</label>
+                        <select id="gender" onchange="autoCalculateQuota();">
+                            <option value="">请选择</option>
+                            <option value="male">男性</option>
+                            <option value="female">女性</option>
+                        </select>
+                    </div>
+                    <div class="input-item">
+                        <label>身高 (cm)</label>
+                        <input type="number" id="height" placeholder="175" min="100" max="250" oninput="autoCalculateQuota();">
+                    </div>
+                    <div class="input-item">
+                        <label>体重 (kg)</label>
+                        <input type="number" id="weight" placeholder="70" min="30" max="200" oninput="autoCalculateQuota();">
+                    </div>
+                    <div class="input-item quota-group">
+                        <div>
+                            <label>碳水配额</label>
+                            <input type="number" id="carbQuota" placeholder="自动" step="0.1" min="0" max="10" readonly>
+                        </div>
+                        <div>
+                            <label>蛋白质配额</label>
+                            <input type="number" id="proteinQuota" placeholder="自动" step="0.1" min="0" max="10" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-hint">碳水配额和蛋白质配额根据性别、身高、体重自动计算 (g/kg体重)</div>
+                <button class="calculate-btn" onclick="calculate()">计算营养需求</button>
+            </div>
+
+            <div class="results" id="results">
+                <div class="summary">
+                    <h2>营养需求总览</h2>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="label">BMI</div>
+                            <div class="value" id="bmi">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label">每日碳水需求</div>
+                            <div class="value" id="totalCarb">-</div>
+                            <div class="unit">g</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="label">每日蛋白质需求</div>
+                            <div class="value" id="totalProtein">-</div>
+                            <div class="unit">g</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meal-distribution">
+                    <h3>
+                        <span>食物配额</span>
+                        <div class="manual-adjust-toggle">
+                            <span>手动调整</span>
+                            <div class="toggle-switch" id="manualAdjustToggle" onclick="toggleManualAdjust()"></div>
+                        </div>
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;" id="mealContainer">
+                        <!-- 餐次卡片将由JavaScript动态生成 -->
+                    </div>
+                    <div class="meal-adjust-controls" id="mealAdjustControls">
+                        <!-- 手动调整控件将由JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <div class="food-section" id="foodSection">
+                    <h3 id="foodSectionTitle">食物选择</h3>
+                    <div class="food-hint" id="foodSectionHint">点击上方餐次卡片查看对应食物</div>
+                    
+                    <!-- 已选食物区域 -->
+                    <div class="selected-foods-section" id="selectedFoodsSection" style="display: none;">
+                        <div class="selected-foods-header">
+                            <h4 id="selectedFoodsTitle">已选食物</h4>
+                        </div>
+                        <div class="selected-foods-summary" id="selectedFoodsSummary">
+                            <div class="selected-foods-summary-item">
+                                <div class="selected-foods-summary-label">碳水已选/目标</div>
+                                <div class="selected-foods-summary-value" id="selectedCarbSummary">0 / 0 g</div>
+                            </div>
+                            <div class="selected-foods-summary-item">
+                                <div class="selected-foods-summary-label">蛋白质已选/目标</div>
+                                <div class="selected-foods-summary-value" id="selectedProteinSummary">0 / 0 g</div>
+                            </div>
+                        </div>
+                        <div class="selected-foods-list" id="selectedFoodsList">
+                            <!-- 已选食物列表将由JavaScript动态生成 -->
+                        </div>
+                    </div>
+
+                    <div class="food-search-container">
+                        <input type="text" 
+                               id="foodSearchInput" 
+                               class="food-search-input" 
+                               placeholder="搜索食物名称..." 
+                               oninput="searchFoods(this.value)">
+                        <div class="search-results-info" id="searchResultsInfo" style="display: none;"></div>
+                    </div>
+                    <div id="carbFoods"></div>
+                    <div id="proteinFoods"></div>
+                </div>
+
+                <div class="note">
+                    <strong>提示</strong>
+                    <ul>
+                        <li>食物重量 = 所需营养量 ÷ 食物营养率</li>
+                        <li>GI值：高=快速升糖，中=中等，低=缓慢升糖</li>
+                        <li>减脂期建议选择中低GI食物，练后餐可选择高GI食物</li>
+                        <li>蛋白质优先选择瘦肉、鱼虾等干净蛋白质</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 食物数据（直接嵌入，避免CORS问题）
+        const nutritionData = {
+            "foods": {
+                        "碳水": [
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "生米",
+                                                "rate": 0.75,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米饭（很软）",
+                                                "rate": 0.25,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米饭（一般）",
+                                                "rate": 0.3,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米饭（偏硬）",
+                                                "rate": 0.35,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米粥（稀）",
+                                                "rate": 0.1,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米粥（一般）",
+                                                "rate": 0.13,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米线（熟）",
+                                                "rate": 0.33,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "米糊（生）",
+                                                "rate": 0.75,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "肠粉（熟）",
+                                                "rate": 0.2,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "米类主食",
+                                                "name": "粽子",
+                                                "rate": 0.5,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "切片面包",
+                                                "rate": 0.5,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "馒头/花卷/馍/馕",
+                                                "rate": 0.5,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "挂面（生）",
+                                                "rate": 0.75,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "意面（生）",
+                                                "rate": 0.75,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "鲜面（生）",
+                                                "rate": 0.6,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "凉面（熟）",
+                                                "rate": 0.3,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "粗面（熟）",
+                                                "rate": 0.3,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "意面（熟）",
+                                                "rate": 0.3,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "细面（熟）",
+                                                "rate": 0.23,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "麦类主食",
+                                                "name": "卷饼/烙饼/馕（熟）",
+                                                "rate": 0.5,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "红薯（生/蒸煮）",
+                                                "rate": 0.18,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "红薯（烤）",
+                                                "rate": 0.23,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "土豆（生/蒸煮）",
+                                                "rate": 0.18,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "土豆（烤）",
+                                                "rate": 0.23,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "红薯/土豆粉丝（生）",
+                                                "rate": 0.84,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "甜玉米（生/蒸煮）",
+                                                "rate": 0.2,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "糯玉米（生/蒸煮）",
+                                                "rate": 0.35,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "贝贝南瓜",
+                                                "rate": 0.21,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "传统南瓜",
+                                                "rate": 0.05,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "山药（生/蒸煮）",
+                                                "rate": 0.12,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "藕粉（生）",
+                                                "rate": 0.9,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "燕麦麸皮（生）",
+                                                "rate": 0.45,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "速食燕麦片（生）",
+                                                "rate": 0.6,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "其他主食",
+                                                "name": "速食黑麦片（生）",
+                                                "rate": 0.6,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "方便食品",
+                                                "name": "五谷道场方便面",
+                                                "rate": 0.65,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "方便食品",
+                                                "name": "辛拉面（普通版）",
+                                                "rate": 0.65,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "方便食品",
+                                                "name": "辛拉面（空空面版）",
+                                                "rate": 0.65,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "方便食品",
+                                                "name": "康力快熟意大利面",
+                                                "rate": 0.32,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "方便食品",
+                                                "name": "白家陈记酸辣粉丝",
+                                                "rate": 0.6,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "切片面包",
+                                                "rate": 0.5,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "旺仔小馒头（46g装）",
+                                                "rate": 0.88,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "旺仔QQ糖",
+                                                "rate": 0.72,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "十月稻田饭团",
+                                                "rate": 0.25,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "红螺牌驴打滚",
+                                                "rate": 0.86,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "山西烤馍",
+                                                "rate": 0.7,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "非油炸干脆面",
+                                                "rate": 0.75,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "BHB熟板栗",
+                                                "rate": 0.35,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "云片糕/桃片",
+                                                "rate": 0.8,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "米花糖",
+                                                "rate": 0.85,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "娃哈哈八宝粥",
+                                                "rate": 0.13,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "宝矿力运动饮料",
+                                                "rate": 0.06,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "便携碳水",
+                                                "name": "脉动运动饮料",
+                                                "rate": 0.05,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "干枣",
+                                                "rate": 0.5,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "鲜枣",
+                                                "rate": 0.3,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "椰肉",
+                                                "rate": 0.3,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "榴莲",
+                                                "rate": 0.28,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "菠萝蜜",
+                                                "rate": 0.26,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "香蕉",
+                                                "rate": 0.22,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "提子",
+                                                "rate": 0.17,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "荔枝",
+                                                "rate": 0.17,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "桂圆",
+                                                "rate": 0.17,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "猕猴桃",
+                                                "rate": 0.15,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "苹果",
+                                                "rate": 0.13,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "梨",
+                                                "rate": 0.13,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "车厘子",
+                                                "rate": 0.13,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "火龙果",
+                                                "rate": 0.13,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "芒果",
+                                                "rate": 0.13,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "桑葚",
+                                                "rate": 0.13,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "葡萄",
+                                                "rate": 0.12,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "橘子",
+                                                "rate": 0.12,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "橙子",
+                                                "rate": 0.11,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "桃",
+                                                "rate": 0.1,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "柚子",
+                                                "rate": 0.1,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "樱桃",
+                                                "rate": 0.1,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "西梅",
+                                                "rate": 0.1,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "枇杷",
+                                                "rate": 0.09,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "李子",
+                                                "rate": 0.09,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "杏",
+                                                "rate": 0.09,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "哈密瓜",
+                                                "rate": 0.08,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "西瓜",
+                                                "rate": 0.07,
+                                                "gi": "高"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "木瓜",
+                                                "rate": 0.07,
+                                                "gi": "中"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "圣女果（小番茄）",
+                                                "rate": 0.06,
+                                                "gi": "低"
+                                    },
+                                    {
+                                                "subcategory": "水果",
+                                                "name": "西红柿（大番茄）",
+                                                "rate": 0.03,
+                                                "gi": "低"
+                                    }
+                        ],
+                        "蛋白质": [
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "瘦肉（鱼虾生肉）",
+                                                "rate": 0.15,
+                                                "gi": "主要来源"
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "瘦肉（三文鱼/金枪鱼）",
+                                                "rate": 0.2,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "瘦肉（家禽家畜生肉）",
+                                                "rate": 0.2,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "瘦肉（一般的熟肉）",
+                                                "rate": 0.25,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "瘦肉（柴感的熟肉）",
+                                                "rate": 0.3,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "瘦肉干",
+                                                "rate": 0.4,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "蛋白粉",
+                                                "rate": 0.75,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "干黄豆",
+                                                "rate": 0.35,
+                                                "gi": "碰到了可吃"
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "鲜黄豆/毛豆/青豆",
+                                                "rate": 0.13,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "豆皮/千张",
+                                                "rate": 0.35,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "豆腐",
+                                                "rate": 0.07,
+                                                "gi": null
+                                    },
+                                    {
+                                                "subcategory": "干净蛋白质",
+                                                "name": "豆浆",
+                                                "rate": 0.03,
+                                                "gi": "可忽略不计"
+                                    },
+                                    {
+                                                "subcategory": "蛋奶",
+                                                "name": "鸡蛋",
+                                                "rate": 0.12,
+                                                "gi": null,
+                                                "note": "约6g蛋白质/个"
+                                    },
+                                    {
+                                                "subcategory": "蛋奶",
+                                                "name": "牛奶",
+                                                "rate": 0.03,
+                                                "gi": null,
+                                                "note": "约10g蛋白质/250ml"
+                                    },
+                                    {
+                                                "subcategory": "蛋奶",
+                                                "name": "酸奶",
+                                                "rate": 0.05,
+                                                "gi": null,
+                                                "note": "约10g蛋白质/200ml"
+                                    }
+                        ]
+            }
+};
+
+        // 训练方案配额分配配置
+        const trainingPlanConfig = {
+            // 力训日 - 早饭后练（早起版）：①练前餐 ②练后餐 ③其他餐 ④其他餐 ⑤其他餐
+            'morning_early': {
+                meals: [
+                    { id: 'breakfast', name: '① 练前餐', carbPercent: 0.15, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'brunch', name: '② 练后餐', carbPercent: 0.35, proteinPercent: 0.20, color: '#51cf66' },
+                    { id: 'lunch', name: '③ 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'dinner', name: '④ 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ff6b6b' },
+                    { id: 'snack', name: '⑤ 其他餐', carbPercent: 0.10, proteinPercent: 0.20, color: '#9b59b6' }
+                ]
+            },
+            // 力训日 - 早饭后练（晚起版）：①练前餐 ②练后餐 ③其他餐 ④其他餐
+            'morning_late': {
+                meals: [
+                    { id: 'breakfast', name: '① 练前餐', carbPercent: 0.15, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'lunch', name: '② 练后餐', carbPercent: 0.45, proteinPercent: 0.40, color: '#51cf66' },
+                    { id: 'dinner', name: '③ 其他餐', carbPercent: 0.30, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'snack', name: '④ 其他餐', carbPercent: 0.10, proteinPercent: 0.20, color: '#9b59b6' }
+                ]
+            },
+            // 力训日 - 午饭前练：①其他餐 ②练前餐 ③练后餐 ④其他餐 ⑤其他餐
+            'before_lunch': {
+                meals: [
+                    { id: 'breakfast', name: '① 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'preWorkout', name: '② 练前餐', carbPercent: 0.10, proteinPercent: 0.00, color: '#74b9ff' },
+                    { id: 'lunch', name: '③ 练后餐', carbPercent: 0.40, proteinPercent: 0.40, color: '#51cf66' },
+                    { id: 'dinner', name: '④ 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'snack', name: '⑤ 其他餐', carbPercent: 0.10, proteinPercent: 0.20, color: '#9b59b6' }
+                ]
+            },
+            // 力训日 - 午饭后练：①其他餐 ②练前餐 ③练后餐 ④其他餐 ⑤其他餐
+            'after_lunch': {
+                meals: [
+                    { id: 'breakfast', name: '① 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'lunch', name: '② 练前餐', carbPercent: 0.10, proteinPercent: 0.00, color: '#74b9ff' },
+                    { id: 'postWorkout', name: '③ 练后餐', carbPercent: 0.40, proteinPercent: 0.40, color: '#51cf66' },
+                    { id: 'dinner', name: '④ 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'snack', name: '⑤ 其他餐', carbPercent: 0.10, proteinPercent: 0.20, color: '#9b59b6' }
+                ]
+            },
+            // 力训日 - 晚饭前练：①其他餐 ②其他餐 ③练前餐 ④练后餐 ⑤其他餐
+            'before_dinner': {
+                meals: [
+                    { id: 'breakfast', name: '① 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'lunch', name: '② 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'preWorkout', name: '③ 练前餐', carbPercent: 0.15, proteinPercent: 0.00, color: '#74b9ff' },
+                    { id: 'dinner', name: '④ 练后餐', carbPercent: 0.35, proteinPercent: 0.40, color: '#51cf66' },
+                    { id: 'snack', name: '⑤ 其他餐', carbPercent: 0.10, proteinPercent: 0.20, color: '#9b59b6' }
+                ]
+            },
+            // 力训日 - 晚饭后练：①其他餐 ②其他餐 ③练前餐 ④练后餐 ⑤其他餐
+            'after_dinner': {
+                meals: [
+                    { id: 'breakfast', name: '① 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'lunch', name: '② 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'dinner', name: '③ 练前餐', carbPercent: 0.15, proteinPercent: 0.00, color: '#74b9ff' },
+                    { id: 'postWorkout', name: '④ 练后餐', carbPercent: 0.35, proteinPercent: 0.40, color: '#51cf66' },
+                    { id: 'snack', name: '⑤ 其他餐', carbPercent: 0.10, proteinPercent: 0.20, color: '#9b59b6' }
+                ]
+            },
+            // 力训日 - 夜里练：①其他餐 ②其他餐 ③其他餐 ④练前餐 ⑤练后餐
+            'night_training': {
+                meals: [
+                    { id: 'breakfast', name: '① 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#667eea' },
+                    { id: 'lunch', name: '② 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ffa500' },
+                    { id: 'dinner', name: '③ 其他餐', carbPercent: 0.20, proteinPercent: 0.20, color: '#ff6b6b' },
+                    { id: 'preWorkout', name: '④ 练前餐', carbPercent: 0.15, proteinPercent: 0.00, color: '#74b9ff' },
+                    { id: 'postWorkout', name: '⑤ 练后餐', carbPercent: 0.25, proteinPercent: 0.40, color: '#51cf66' }
+                ]
+            },
+            // 休息日 - 标准四餐：①其他餐 ②其他餐 ③其他餐 ④其他餐
+            'rest_standard': {
+                meals: [
+                    { id: 'breakfast', name: '① 其他餐', carbPercent: 0.30, proteinPercent: 0.25, color: '#667eea' },
+                    { id: 'lunch', name: '② 其他餐', carbPercent: 0.30, proteinPercent: 0.25, color: '#ffa500' },
+                    { id: 'dinner', name: '③ 其他餐', carbPercent: 0.30, proteinPercent: 0.25, color: '#ff6b6b' },
+                    { id: 'snack', name: '④ 其他餐', carbPercent: 0.10, proteinPercent: 0.25, color: '#9b59b6' }
+                ]
+            }
+        };
+
+        // 配额查找表（根据Excel文件"碳蛋配比"工作表生成，直接根据身高体重查找）
+        const quotaLookupTable = {
+            "male": {
+                "training": {
+                    "weights": [45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0],
+                    "heights": [150.0, 155.0, 160.0, 165.0, 170.0, 175.0, 180.0],
+                    "data": {
+                        "100_150": {"carb": 1.9, "protein": 1.0}, "100_155": {"carb": 1.9, "protein": 1.0}, "100_160": {"carb": 2.1, "protein": 1.1}, "100_165": {"carb": 2.0, "protein": 1.1}, "100_170": {"carb": 2.1, "protein": 1.1}, "100_175": {"carb": 2.1, "protein": 1.1}, "100_180": {"carb": 2.2, "protein": 1.2},
+                        "105_150": {"carb": 1.9, "protein": 1.0}, "105_155": {"carb": 1.9, "protein": 1.0}, "105_160": {"carb": 1.9, "protein": 1.0}, "105_165": {"carb": 2.0, "protein": 1.1}, "105_170": {"carb": 2.0, "protein": 1.1}, "105_175": {"carb": 2.1, "protein": 1.1}, "105_180": {"carb": 2.1, "protein": 1.1},
+                        "110_150": {"carb": 1.8, "protein": 1.0}, "110_155": {"carb": 1.9, "protein": 1.0}, "110_160": {"carb": 1.9, "protein": 1.0}, "110_165": {"carb": 2.0, "protein": 1.1}, "110_170": {"carb": 2.0, "protein": 1.1}, "110_175": {"carb": 2.1, "protein": 1.1}, "110_180": {"carb": 2.1, "protein": 1.1},
+                        "115_150": {"carb": 1.8, "protein": 1.0}, "115_155": {"carb": 1.9, "protein": 1.0}, "115_160": {"carb": 1.9, "protein": 1.0}, "115_165": {"carb": 1.9, "protein": 1.0}, "115_170": {"carb": 2.0, "protein": 1.1}, "115_175": {"carb": 2.0, "protein": 1.1}, "115_180": {"carb": 2.1, "protein": 1.1},
+                        "45_150": {"carb": 2.4, "protein": 1.3}, "50_150": {"carb": 2.3, "protein": 1.2}, "50_155": {"carb": 2.4, "protein": 1.3}, "50_160": {"carb": 2.5, "protein": 1.3},
+                        "55_150": {"carb": 2.2, "protein": 1.2}, "55_155": {"carb": 2.3, "protein": 1.2}, "55_160": {"carb": 2.4, "protein": 1.3}, "55_165": {"carb": 2.5, "protein": 1.3},
+                        "60_150": {"carb": 2.1, "protein": 1.2}, "60_155": {"carb": 2.2, "protein": 1.2}, "60_160": {"carb": 2.3, "protein": 1.2}, "60_165": {"carb": 2.4, "protein": 1.3}, "60_170": {"carb": 2.5, "protein": 1.3}, "60_175": {"carb": 2.5, "protein": 1.4},
+                        "65_150": {"carb": 2.1, "protein": 1.1}, "65_155": {"carb": 2.2, "protein": 1.2}, "65_160": {"carb": 2.2, "protein": 1.2}, "65_165": {"carb": 2.3, "protein": 1.2}, "65_170": {"carb": 2.4, "protein": 1.3}, "65_175": {"carb": 2.5, "protein": 1.3}, "65_180": {"carb": 2.5, "protein": 1.4},
+                        "70_150": {"carb": 2.0, "protein": 1.1}, "70_155": {"carb": 2.1, "protein": 1.1}, "70_160": {"carb": 2.2, "protein": 1.2}, "70_165": {"carb": 2.2, "protein": 1.2}, "70_170": {"carb": 2.3, "protein": 1.2}, "70_175": {"carb": 2.4, "protein": 1.3}, "70_180": {"carb": 2.4, "protein": 1.3},
+                        "75_150": {"carb": 2.0, "protein": 1.1}, "75_155": {"carb": 2.1, "protein": 1.1}, "75_160": {"carb": 2.1, "protein": 1.1}, "75_165": {"carb": 2.2, "protein": 1.2}, "75_170": {"carb": 2.3, "protein": 1.2}, "75_175": {"carb": 2.3, "protein": 1.2}, "75_180": {"carb": 2.4, "protein": 1.3},
+                        "80_150": {"carb": 2.0, "protein": 1.1}, "80_155": {"carb": 2.0, "protein": 1.1}, "80_160": {"carb": 2.1, "protein": 1.1}, "80_165": {"carb": 2.2, "protein": 1.2}, "80_170": {"carb": 2.2, "protein": 1.2}, "80_175": {"carb": 2.3, "protein": 1.2}, "80_180": {"carb": 2.3, "protein": 1.3},
+                        "85_150": {"carb": 1.9, "protein": 1.0}, "85_155": {"carb": 2.0, "protein": 1.1}, "85_160": {"carb": 2.1, "protein": 1.1}, "85_165": {"carb": 2.1, "protein": 1.1}, "85_170": {"carb": 2.2, "protein": 1.2}, "85_175": {"carb": 2.2, "protein": 1.2}, "85_180": {"carb": 2.3, "protein": 1.2},
+                        "90_150": {"carb": 1.9, "protein": 1.0}, "90_155": {"carb": 2.0, "protein": 1.1}, "90_160": {"carb": 2.1, "protein": 1.1}, "90_165": {"carb": 2.1, "protein": 1.1}, "90_170": {"carb": 2.1, "protein": 1.1}, "90_175": {"carb": 2.2, "protein": 1.2}, "90_180": {"carb": 2.2, "protein": 1.2},
+                        "95_150": {"carb": 1.9, "protein": 1.0}, "95_155": {"carb": 1.9, "protein": 1.0}, "95_160": {"carb": 2.1, "protein": 1.1}, "95_165": {"carb": 2.0, "protein": 1.1}, "95_170": {"carb": 2.1, "protein": 1.1}, "95_175": {"carb": 2.1, "protein": 1.2}, "95_180": {"carb": 2.2, "protein": 1.2}
+                    }
+                },
+                "rest": {
+                    "weights": [45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0],
+                    "heights": [150.0, 155.0, 160.0, 165.0, 170.0, 175.0, 180.0],
+                    "data": {
+                        "100_150": {"carb": 1.6, "protein": 1.0}, "100_155": {"carb": 1.7, "protein": 1.0}, "100_160": {"carb": 1.7, "protein": 1.1}, "100_165": {"carb": 1.8, "protein": 1.1}, "100_170": {"carb": 1.8, "protein": 1.1}, "100_175": {"carb": 1.9, "protein": 1.1}, "100_180": {"carb": 1.9, "protein": 1.2},
+                        "105_150": {"carb": 1.6, "protein": 1.0}, "105_155": {"carb": 1.7, "protein": 1.0}, "105_160": {"carb": 1.7, "protein": 1.0}, "105_165": {"carb": 1.8, "protein": 1.1}, "105_170": {"carb": 1.8, "protein": 1.1}, "105_175": {"carb": 1.9, "protein": 1.1}, "105_180": {"carb": 1.9, "protein": 1.1},
+                        "110_150": {"carb": 1.6, "protein": 1.0}, "110_155": {"carb": 1.7, "protein": 1.0}, "110_160": {"carb": 1.7, "protein": 1.0}, "110_165": {"carb": 1.8, "protein": 1.1}, "110_170": {"carb": 1.8, "protein": 1.1}, "110_175": {"carb": 1.8, "protein": 1.1}, "110_180": {"carb": 1.9, "protein": 1.1},
+                        "115_150": {"carb": 1.6, "protein": 1.0}, "115_155": {"carb": 1.7, "protein": 1.0}, "115_160": {"carb": 1.7, "protein": 1.0}, "115_165": {"carb": 1.7, "protein": 1.0}, "115_170": {"carb": 1.8, "protein": 1.1}, "115_175": {"carb": 1.8, "protein": 1.1}, "115_180": {"carb": 1.9, "protein": 1.1},
+                        "45_150": {"carb": 1.8, "protein": 1.3}, "50_150": {"carb": 1.8, "protein": 1.2}, "50_155": {"carb": 1.9, "protein": 1.3}, "50_160": {"carb": 2.0, "protein": 1.3},
+                        "55_150": {"carb": 1.8, "protein": 1.2}, "55_155": {"carb": 1.9, "protein": 1.2}, "55_160": {"carb": 1.9, "protein": 1.3}, "55_165": {"carb": 2.0, "protein": 1.3},
+                        "60_150": {"carb": 1.7, "protein": 1.2}, "60_155": {"carb": 1.8, "protein": 1.2}, "60_160": {"carb": 1.9, "protein": 1.2}, "60_165": {"carb": 2.0, "protein": 1.3}, "60_170": {"carb": 2.1, "protein": 1.3}, "60_175": {"carb": 2.1, "protein": 1.4},
+                        "65_150": {"carb": 1.7, "protein": 1.1}, "65_155": {"carb": 1.8, "protein": 1.2}, "65_160": {"carb": 1.9, "protein": 1.2}, "65_165": {"carb": 1.9, "protein": 1.2}, "65_170": {"carb": 2.0, "protein": 1.3}, "65_175": {"carb": 2.1, "protein": 1.3}, "65_180": {"carb": 2.2, "protein": 1.4},
+                        "70_150": {"carb": 1.7, "protein": 1.1}, "70_155": {"carb": 1.8, "protein": 1.1}, "70_160": {"carb": 1.8, "protein": 1.2}, "70_165": {"carb": 1.9, "protein": 1.2}, "70_170": {"carb": 2.0, "protein": 1.2}, "70_175": {"carb": 2.0, "protein": 1.3}, "70_180": {"carb": 2.1, "protein": 1.3},
+                        "75_150": {"carb": 1.7, "protein": 1.1}, "75_155": {"carb": 1.8, "protein": 1.1}, "75_160": {"carb": 1.8, "protein": 1.1}, "75_165": {"carb": 1.9, "protein": 1.2}, "75_170": {"carb": 1.9, "protein": 1.2}, "75_175": {"carb": 2.0, "protein": 1.2}, "75_180": {"carb": 2.1, "protein": 1.3},
+                        "80_150": {"carb": 1.7, "protein": 1.1}, "80_155": {"carb": 1.7, "protein": 1.1}, "80_160": {"carb": 1.8, "protein": 1.1}, "80_165": {"carb": 1.9, "protein": 1.2}, "80_170": {"carb": 1.9, "protein": 1.2}, "80_175": {"carb": 2.0, "protein": 1.2}, "80_180": {"carb": 2.0, "protein": 1.3},
+                        "85_150": {"carb": 1.7, "protein": 1.0}, "85_155": {"carb": 1.7, "protein": 1.1}, "85_160": {"carb": 1.8, "protein": 1.1}, "85_165": {"carb": 1.8, "protein": 1.1}, "85_170": {"carb": 1.9, "protein": 1.2}, "85_175": {"carb": 1.9, "protein": 1.2}, "85_180": {"carb": 2.0, "protein": 1.2},
+                        "90_150": {"carb": 1.7, "protein": 1.0}, "90_155": {"carb": 1.7, "protein": 1.1}, "90_160": {"carb": 1.8, "protein": 1.1}, "90_165": {"carb": 1.8, "protein": 1.1}, "90_170": {"carb": 1.9, "protein": 1.1}, "90_175": {"carb": 1.9, "protein": 1.2}, "90_180": {"carb": 2.0, "protein": 1.2},
+                        "95_150": {"carb": 1.6, "protein": 1.0}, "95_155": {"carb": 1.7, "protein": 1.0}, "95_160": {"carb": 1.7, "protein": 1.1}, "95_165": {"carb": 1.8, "protein": 1.1}, "95_170": {"carb": 1.8, "protein": 1.1}, "95_175": {"carb": 1.9, "protein": 1.2}, "95_180": {"carb": 1.9, "protein": 1.2}
+                    }
+                }
+            },
+            "female": {
+                "training": {
+                    "weights": [45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0],
+                    "heights": [150.0, 155.0, 160.0, 165.0, 170.0, 175.0, 180.0],
+                    "data": {
+                        "100_150": {"carb": 1.9, "protein": 1.0}, "100_155": {"carb": 1.9, "protein": 1.0}, "100_160": {"carb": 2.1, "protein": 1.1}, "100_165": {"carb": 2.0, "protein": 1.1}, "100_170": {"carb": 2.1, "protein": 1.1}, "100_175": {"carb": 2.1, "protein": 1.1}, "100_180": {"carb": 2.2, "protein": 1.2},
+                        "105_150": {"carb": 1.9, "protein": 1.0}, "105_155": {"carb": 1.9, "protein": 1.0}, "105_160": {"carb": 1.9, "protein": 1.0}, "105_165": {"carb": 2.0, "protein": 1.1}, "105_170": {"carb": 2.0, "protein": 1.1}, "105_175": {"carb": 2.1, "protein": 1.1}, "105_180": {"carb": 2.1, "protein": 1.1},
+                        "110_150": {"carb": 1.8, "protein": 1.0}, "110_155": {"carb": 1.9, "protein": 1.0}, "110_160": {"carb": 1.9, "protein": 1.0}, "110_165": {"carb": 2.0, "protein": 1.1}, "110_170": {"carb": 2.0, "protein": 1.1}, "110_175": {"carb": 2.1, "protein": 1.1}, "110_180": {"carb": 2.1, "protein": 1.1},
+                        "115_150": {"carb": 1.8, "protein": 1.0}, "115_155": {"carb": 1.9, "protein": 1.0}, "115_160": {"carb": 1.9, "protein": 1.0}, "115_165": {"carb": 1.9, "protein": 1.0}, "115_170": {"carb": 2.0, "protein": 1.1}, "115_175": {"carb": 2.0, "protein": 1.1}, "115_180": {"carb": 2.1, "protein": 1.1},
+                        "45_150": {"carb": 2.4, "protein": 1.3}, "50_150": {"carb": 2.3, "protein": 1.2}, "50_155": {"carb": 2.4, "protein": 1.3}, "50_160": {"carb": 2.5, "protein": 1.3},
+                        "55_150": {"carb": 2.2, "protein": 1.2}, "55_155": {"carb": 2.3, "protein": 1.2}, "55_160": {"carb": 2.4, "protein": 1.3}, "55_165": {"carb": 2.5, "protein": 1.3},
+                        "60_150": {"carb": 2.1, "protein": 1.2}, "60_155": {"carb": 2.2, "protein": 1.2}, "60_160": {"carb": 2.3, "protein": 1.2}, "60_165": {"carb": 2.4, "protein": 1.3}, "60_170": {"carb": 2.5, "protein": 1.3}, "60_175": {"carb": 2.5, "protein": 1.4},
+                        "65_150": {"carb": 2.1, "protein": 1.1}, "65_155": {"carb": 2.2, "protein": 1.2}, "65_160": {"carb": 2.2, "protein": 1.2}, "65_165": {"carb": 2.3, "protein": 1.2}, "65_170": {"carb": 2.4, "protein": 1.3}, "65_175": {"carb": 2.5, "protein": 1.3}, "65_180": {"carb": 2.5, "protein": 1.4},
+                        "70_150": {"carb": 2.0, "protein": 1.1}, "70_155": {"carb": 2.1, "protein": 1.1}, "70_160": {"carb": 2.2, "protein": 1.2}, "70_165": {"carb": 2.2, "protein": 1.2}, "70_170": {"carb": 2.3, "protein": 1.2}, "70_175": {"carb": 2.4, "protein": 1.3}, "70_180": {"carb": 2.4, "protein": 1.3},
+                        "75_150": {"carb": 2.0, "protein": 1.1}, "75_155": {"carb": 2.1, "protein": 1.1}, "75_160": {"carb": 2.1, "protein": 1.1}, "75_165": {"carb": 2.2, "protein": 1.2}, "75_170": {"carb": 2.3, "protein": 1.2}, "75_175": {"carb": 2.3, "protein": 1.2}, "75_180": {"carb": 2.4, "protein": 1.3},
+                        "80_150": {"carb": 2.0, "protein": 1.1}, "80_155": {"carb": 2.0, "protein": 1.1}, "80_160": {"carb": 2.1, "protein": 1.1}, "80_165": {"carb": 2.2, "protein": 1.2}, "80_170": {"carb": 2.2, "protein": 1.2}, "80_175": {"carb": 2.3, "protein": 1.2}, "80_180": {"carb": 2.3, "protein": 1.3},
+                        "85_150": {"carb": 1.9, "protein": 1.0}, "85_155": {"carb": 2.0, "protein": 1.1}, "85_160": {"carb": 2.1, "protein": 1.1}, "85_165": {"carb": 2.1, "protein": 1.1}, "85_170": {"carb": 2.2, "protein": 1.2}, "85_175": {"carb": 2.2, "protein": 1.2}, "85_180": {"carb": 2.3, "protein": 1.2},
+                        "90_150": {"carb": 1.9, "protein": 1.0}, "90_155": {"carb": 2.0, "protein": 1.1}, "90_160": {"carb": 2.1, "protein": 1.1}, "90_165": {"carb": 2.1, "protein": 1.1}, "90_170": {"carb": 2.1, "protein": 1.1}, "90_175": {"carb": 2.2, "protein": 1.2}, "90_180": {"carb": 2.2, "protein": 1.2},
+                        "95_150": {"carb": 1.9, "protein": 1.0}, "95_155": {"carb": 1.9, "protein": 1.0}, "95_160": {"carb": 2.1, "protein": 1.1}, "95_165": {"carb": 2.0, "protein": 1.1}, "95_170": {"carb": 2.1, "protein": 1.1}, "95_175": {"carb": 2.1, "protein": 1.2}, "95_180": {"carb": 2.2, "protein": 1.2}
+                    }
+                },
+                "rest": {
+                    "weights": [45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0],
+                    "heights": [150.0, 155.0, 160.0, 165.0, 170.0, 175.0, 180.0],
+                    "data": {
+                        "100_150": {"carb": 1.6, "protein": 1.0}, "100_155": {"carb": 1.7, "protein": 1.0}, "100_160": {"carb": 1.7, "protein": 1.1}, "100_165": {"carb": 1.8, "protein": 1.1}, "100_170": {"carb": 1.8, "protein": 1.1}, "100_175": {"carb": 1.9, "protein": 1.1}, "100_180": {"carb": 1.9, "protein": 1.2},
+                        "105_150": {"carb": 1.6, "protein": 1.0}, "105_155": {"carb": 1.7, "protein": 1.0}, "105_160": {"carb": 1.7, "protein": 1.0}, "105_165": {"carb": 1.8, "protein": 1.1}, "105_170": {"carb": 1.8, "protein": 1.1}, "105_175": {"carb": 1.9, "protein": 1.1}, "105_180": {"carb": 1.9, "protein": 1.1},
+                        "110_150": {"carb": 1.6, "protein": 1.0}, "110_155": {"carb": 1.7, "protein": 1.0}, "110_160": {"carb": 1.7, "protein": 1.0}, "110_165": {"carb": 1.8, "protein": 1.1}, "110_170": {"carb": 1.8, "protein": 1.1}, "110_175": {"carb": 1.8, "protein": 1.1}, "110_180": {"carb": 1.9, "protein": 1.1},
+                        "115_150": {"carb": 1.6, "protein": 1.0}, "115_155": {"carb": 1.7, "protein": 1.0}, "115_160": {"carb": 1.7, "protein": 1.0}, "115_165": {"carb": 1.7, "protein": 1.0}, "115_170": {"carb": 1.8, "protein": 1.1}, "115_175": {"carb": 1.8, "protein": 1.1}, "115_180": {"carb": 1.9, "protein": 1.1},
+                        "45_150": {"carb": 1.8, "protein": 1.3}, "50_150": {"carb": 1.8, "protein": 1.2}, "50_155": {"carb": 1.9, "protein": 1.3}, "50_160": {"carb": 2.0, "protein": 1.3},
+                        "55_150": {"carb": 1.8, "protein": 1.2}, "55_155": {"carb": 1.9, "protein": 1.2}, "55_160": {"carb": 1.9, "protein": 1.3}, "55_165": {"carb": 2.0, "protein": 1.3},
+                        "60_150": {"carb": 1.7, "protein": 1.2}, "60_155": {"carb": 1.8, "protein": 1.2}, "60_160": {"carb": 1.9, "protein": 1.2}, "60_165": {"carb": 2.0, "protein": 1.3}, "60_170": {"carb": 2.1, "protein": 1.3}, "60_175": {"carb": 2.1, "protein": 1.4},
+                        "65_150": {"carb": 1.7, "protein": 1.1}, "65_155": {"carb": 1.8, "protein": 1.2}, "65_160": {"carb": 1.9, "protein": 1.2}, "65_165": {"carb": 1.9, "protein": 1.2}, "65_170": {"carb": 2.0, "protein": 1.3}, "65_175": {"carb": 2.1, "protein": 1.3}, "65_180": {"carb": 2.2, "protein": 1.4},
+                        "70_150": {"carb": 1.7, "protein": 1.1}, "70_155": {"carb": 1.8, "protein": 1.1}, "70_160": {"carb": 1.8, "protein": 1.2}, "70_165": {"carb": 1.9, "protein": 1.2}, "70_170": {"carb": 2.0, "protein": 1.2}, "70_175": {"carb": 2.0, "protein": 1.3}, "70_180": {"carb": 2.1, "protein": 1.3},
+                        "75_150": {"carb": 1.7, "protein": 1.1}, "75_155": {"carb": 1.8, "protein": 1.1}, "75_160": {"carb": 1.8, "protein": 1.1}, "75_165": {"carb": 1.9, "protein": 1.2}, "75_170": {"carb": 1.9, "protein": 1.2}, "75_175": {"carb": 2.0, "protein": 1.2}, "75_180": {"carb": 2.1, "protein": 1.3},
+                        "80_150": {"carb": 1.7, "protein": 1.1}, "80_155": {"carb": 1.7, "protein": 1.1}, "80_160": {"carb": 1.8, "protein": 1.1}, "80_165": {"carb": 1.9, "protein": 1.2}, "80_170": {"carb": 1.9, "protein": 1.2}, "80_175": {"carb": 2.0, "protein": 1.2}, "80_180": {"carb": 2.0, "protein": 1.3},
+                        "85_150": {"carb": 1.7, "protein": 1.0}, "85_155": {"carb": 1.7, "protein": 1.1}, "85_160": {"carb": 1.8, "protein": 1.1}, "85_165": {"carb": 1.8, "protein": 1.1}, "85_170": {"carb": 1.9, "protein": 1.2}, "85_175": {"carb": 1.9, "protein": 1.2}, "85_180": {"carb": 2.0, "protein": 1.2},
+                        "90_150": {"carb": 1.7, "protein": 1.0}, "90_155": {"carb": 1.7, "protein": 1.1}, "90_160": {"carb": 1.8, "protein": 1.1}, "90_165": {"carb": 1.8, "protein": 1.1}, "90_170": {"carb": 1.9, "protein": 1.1}, "90_175": {"carb": 1.9, "protein": 1.2}, "90_180": {"carb": 2.0, "protein": 1.2},
+                        "95_150": {"carb": 1.6, "protein": 1.0}, "95_155": {"carb": 1.7, "protein": 1.0}, "95_160": {"carb": 1.7, "protein": 1.1}, "95_165": {"carb": 1.8, "protein": 1.1}, "95_170": {"carb": 1.8, "protein": 1.1}, "95_175": {"carb": 1.9, "protein": 1.2}, "95_180": {"carb": 1.9, "protein": 1.2}
+                    }
+                }
+            }
+        };
+
+        // 根据性别、身高、体重自动计算配额（优化：缓存DOM元素）
+        const carbQuotaEl = document.getElementById('carbQuota');
+        const proteinQuotaEl = document.getElementById('proteinQuota');
+        
+        // 查找最接近的值
+        function findNearestValue(value, array) {
+            return array.reduce((prev, curr) => {
+                return Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev;
+            });
+        }
+
+        function autoCalculateQuota() {
+            const gender = document.getElementById('gender').value;
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const dayType = document.getElementById('dayType').value;
+
+            if (!gender || isNaN(height) || isNaN(weight)) {
+                carbQuotaEl.value = '';
+                proteinQuotaEl.value = '';
+                return;
+            }
+
+            // 根据查找表直接查找
+            const lookup = quotaLookupTable[gender][dayType];
+            const weights = lookup.weights;
+            const heights = lookup.heights;
+            const data = lookup.data;
+
+            // 先尝试精确查找（四舍五入到整数）
+            const exactKey = `${Math.round(weight)}_${Math.round(height)}`;
+            let result = data[exactKey];
+
+            // 如果找不到精确匹配，找最接近的体重和身高
+            if (!result) {
+                const nearestWeight = findNearestValue(weight, weights);
+                const nearestHeight = findNearestValue(height, heights);
+                const nearestKey = `${Math.round(nearestWeight)}_${Math.round(nearestHeight)}`;
+                result = data[nearestKey];
+            }
+
+            // 如果还是找不到，使用默认值
+            if (!result) {
+                result = { carb: 2.0, protein: 2.0 };
+            }
+
+            carbQuotaEl.value = result.carb.toFixed(1);
+            proteinQuotaEl.value = result.protein.toFixed(1);
+        }
+
+        // 根据训练日类型更新训练方案选项
+        function updateTrainingPlanOptions() {
+            const dayType = document.getElementById('dayType').value;
+            const trainingPlanEl = document.getElementById('trainingPlan');
+            
+            // 重置手动调整状态
+            manualAdjustments = {};
+            const toggle = document.getElementById('manualAdjustToggle');
+            const controls = document.getElementById('mealAdjustControls');
+            if (toggle) toggle.classList.remove('active');
+            if (controls) controls.classList.remove('show');
+            
+            // 根据训练日类型显示不同的训练方案选项
+            if (dayType === 'rest') {
+                // 休息日显示休息日方案
+                trainingPlanEl.innerHTML = `
+                    <option value="rest_standard">标准四餐</option>
+                `;
+            } else {
+                // 力训日显示所有力训方案
+                trainingPlanEl.innerHTML = `
+                    <option value="morning_early">早饭后练（早起版）</option>
+                    <option value="morning_late">早饭后练（晚起版）</option>
+                    <option value="before_lunch">午饭前练</option>
+                    <option value="after_lunch">午饭后练</option>
+                    <option value="before_dinner">晚饭前练</option>
+                    <option value="after_dinner">晚饭后练</option>
+                    <option value="night_training">夜里练</option>
+                `;
+            }
+            
+            // 触发餐次显示更新
+            updateMealDistribution();
+        }
+
+        // 存储手动调整的比例
+        let manualAdjustments = {};
+
+        // 存储每餐已选的食物 {mealId: [{food: {...}, quantity: number, type: 'carb'|'protein'}]}
+        let selectedFoods = {};
+
+        // 切换手动调整模式
+        function toggleManualAdjust() {
+            const toggle = document.getElementById('manualAdjustToggle');
+            const controls = document.getElementById('mealAdjustControls');
+            const isActive = toggle.classList.contains('active');
+            
+            if (isActive) {
+                toggle.classList.remove('active');
+                controls.classList.remove('show');
+                manualAdjustments = {};
+            } else {
+                toggle.classList.add('active');
+                controls.classList.add('show');
+                createManualAdjustControls();
+            }
+        }
+
+        // 创建手动调整控件
+        function createManualAdjustControls() {
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            if (!planConfig) return;
+
+            const controls = document.getElementById('mealAdjustControls');
+            controls.innerHTML = '';
+
+            // 为每个餐次创建调整控件
+            planConfig.meals.forEach(meal => {
+                const item = document.createElement('div');
+                item.className = 'adjust-meal-item';
+                
+                const label = document.createElement('div');
+                label.className = 'adjust-meal-label';
+                label.textContent = meal.name;
+
+                const inputGroup = document.createElement('div');
+                inputGroup.className = 'adjust-input-group';
+
+                // 碳水百分比输入
+                const carbInputItem = document.createElement('div');
+                carbInputItem.className = 'adjust-input-item';
+                const carbLabel = document.createElement('label');
+                carbLabel.textContent = '碳水:';
+                const carbInput = document.createElement('input');
+                carbInput.type = 'number';
+                carbInput.min = '0';
+                carbInput.max = '100';
+                carbInput.step = '0.1';
+                // 确保 carbPercent 是 0-1 之间的小数，然后转换为百分比
+                // meal.carbPercent 应该是 0-1 之间的小数（如 0.15 表示 15%）
+                let carbPercentValue = meal.carbPercent;
+                
+                // 如果值大于1，说明可能是百分比形式，需要除以100
+                // 如果值大于100，说明可能是被错误地乘以了100，需要除以10000
+                if (carbPercentValue > 100) {
+                    carbPercentValue = carbPercentValue / 10000;
+                } else if (carbPercentValue > 1) {
+                    carbPercentValue = carbPercentValue / 100;
+                }
+                
+                // 确保值在0-1之间
+                carbPercentValue = Math.max(0, Math.min(1, carbPercentValue));
+                
+                // 转换为百分比显示（0-100），直接使用数值，不使用formatPercent避免精度问题
+                const carbDisplayValue = Math.round(carbPercentValue * 100 * 10) / 10;
+                carbInput.value = carbDisplayValue % 1 === 0 ? carbDisplayValue.toString() : carbDisplayValue.toFixed(1);
+                carbInput.id = `adjust_${meal.id}_carb`;
+                carbInput.oninput = function() {
+                    updateAdjustSummary();
+                };
+                carbInput.onblur = function() {
+                    validateAndAdjustPercentages(this, 'carb');
+                };
+                carbInputItem.appendChild(carbLabel);
+                carbInputItem.appendChild(carbInput);
+                const carbUnit = document.createElement('span');
+                carbUnit.textContent = '%';
+                carbInputItem.appendChild(carbUnit);
+
+                // 蛋白质百分比输入
+                const proteinInputItem = document.createElement('div');
+                proteinInputItem.className = 'adjust-input-item';
+                const proteinLabel = document.createElement('label');
+                proteinLabel.textContent = '蛋白质:';
+                const proteinInput = document.createElement('input');
+                proteinInput.type = 'number';
+                proteinInput.min = '0';
+                proteinInput.max = '100';
+                proteinInput.step = '0.1';
+                // 确保 proteinPercent 是 0-1 之间的小数，然后转换为百分比
+                // meal.proteinPercent 应该是 0-1 之间的小数（如 0.20 表示 20%）
+                let proteinPercentValue = meal.proteinPercent;
+                
+                // 如果值大于1，说明可能是百分比形式，需要除以100
+                // 如果值大于100，说明可能是被错误地乘以了100，需要除以10000
+                if (proteinPercentValue > 100) {
+                    proteinPercentValue = proteinPercentValue / 10000;
+                } else if (proteinPercentValue > 1) {
+                    proteinPercentValue = proteinPercentValue / 100;
+                }
+                
+                // 确保值在0-1之间
+                proteinPercentValue = Math.max(0, Math.min(1, proteinPercentValue));
+                
+                // 转换为百分比显示（0-100），直接使用数值，不使用formatPercent避免精度问题
+                const proteinDisplayValue = Math.round(proteinPercentValue * 100 * 10) / 10;
+                proteinInput.value = proteinDisplayValue % 1 === 0 ? proteinDisplayValue.toString() : proteinDisplayValue.toFixed(1);
+                proteinInput.id = `adjust_${meal.id}_protein`;
+                proteinInput.oninput = function() {
+                    updateAdjustSummary();
+                };
+                proteinInput.onblur = function() {
+                    validateAndAdjustPercentages(this, 'protein');
+                };
+                proteinInputItem.appendChild(proteinLabel);
+                proteinInputItem.appendChild(proteinInput);
+                const proteinUnit = document.createElement('span');
+                proteinUnit.textContent = '%';
+                proteinInputItem.appendChild(proteinUnit);
+
+                inputGroup.appendChild(carbInputItem);
+                inputGroup.appendChild(proteinInputItem);
+                item.appendChild(label);
+                item.appendChild(inputGroup);
+                controls.appendChild(item);
+            });
+
+            // 添加汇总信息
+            const summary = document.createElement('div');
+            summary.className = 'adjust-summary';
+            summary.id = 'adjustSummary';
+            summary.textContent = '碳水总计: 100% | 蛋白质总计: 100%';
+            controls.appendChild(summary);
+
+            // 初始化时只更新汇总，不调整值
+            updateAdjustSummary();
+        }
+
+        // 辅助函数：格式化百分比值，去掉不必要的小数点
+        function formatPercent(value) {
+            const rounded = Math.round(value * 1000) / 10;
+            // 如果是整数，返回整数；否则返回一位小数
+            if (Math.abs(rounded - Math.round(rounded)) < 0.001) {
+                return Math.round(rounded).toString();
+            }
+            return rounded.toString();
+        }
+
+        // 更新汇总信息（不调整值，只显示）
+        function updateAdjustSummary() {
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            if (!planConfig) return;
+
+            let totalCarb = 0;
+            let totalProtein = 0;
+
+            // 收集所有输入值
+            planConfig.meals.forEach(meal => {
+                const carbInput = document.getElementById(`adjust_${meal.id}_carb`);
+                const proteinInput = document.getElementById(`adjust_${meal.id}_protein`);
+                
+                if (carbInput && proteinInput) {
+                    const carbPercent = parseFloat(carbInput.value) || 0;
+                    const proteinPercent = parseFloat(proteinInput.value) || 0;
+                    
+                    totalCarb += carbPercent / 100;
+                    totalProtein += proteinPercent / 100;
+                }
+            });
+
+            // 更新汇总信息
+            const summary = document.getElementById('adjustSummary');
+            if (summary) {
+                const carbTotal = Math.round(totalCarb * 1000) / 10;
+                const proteinTotal = Math.round(totalProtein * 1000) / 10;
+                const isError = Math.abs(carbTotal - 100) > 0.1 || Math.abs(proteinTotal - 100) > 0.1;
+                summary.textContent = `碳水总计: ${carbTotal}% | 蛋白质总计: ${proteinTotal}%`;
+                summary.className = isError ? 'adjust-summary error' : 'adjust-summary success';
+            }
+        }
+
+        // 验证并调整百分比，确保总和为100%（只在失去焦点时调用）
+        function validateAndAdjustPercentages(editedInput, type) {
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            if (!planConfig) return;
+
+            let totalCarb = 0;
+            let totalProtein = 0;
+            const adjustments = {};
+
+            // 找出用户正在编辑的餐次ID
+            let editedMealId = null;
+            if (editedInput && editedInput.id) {
+                const match = editedInput.id.match(/^adjust_(\w+)_(carb|protein)$/);
+                if (match) {
+                    editedMealId = match[1];
+                }
+            }
+
+            // 收集所有输入值
+            planConfig.meals.forEach(meal => {
+                const carbInput = document.getElementById(`adjust_${meal.id}_carb`);
+                const proteinInput = document.getElementById(`adjust_${meal.id}_protein`);
+                
+                if (carbInput && proteinInput) {
+                    let carbPercent = parseFloat(carbInput.value) || 0;
+                    let proteinPercent = parseFloat(proteinInput.value) || 0;
+                    
+                    // 如果输入值大于100，自动修正为合理的百分比值
+                    // 可能是用户输入错误，或者值被错误地处理了
+                    if (carbPercent > 100) {
+                        // 如果值非常大（如2439），可能是被错误地乘以了100，需要除以100
+                        if (carbPercent > 1000) {
+                            carbPercent = carbPercent / 100;
+                        } else {
+                            // 如果值在100-1000之间，可能是小数形式（如243.9表示24.39%），除以10
+                            carbPercent = carbPercent / 10;
+                        }
+                        // 确保修正后的值在0-100范围内
+                        carbPercent = Math.max(0, Math.min(100, carbPercent));
+                        carbInput.value = formatPercent(carbPercent);
+                    }
+                    if (proteinPercent > 100) {
+                        if (proteinPercent > 1000) {
+                            proteinPercent = proteinPercent / 100;
+                        } else {
+                            proteinPercent = proteinPercent / 10;
+                        }
+                        proteinPercent = Math.max(0, Math.min(100, proteinPercent));
+                        proteinInput.value = formatPercent(proteinPercent);
+                    }
+                    
+                    // 限制在0-100范围内
+                    const clampedCarb = Math.max(0, Math.min(100, carbPercent));
+                    const clampedProtein = Math.max(0, Math.min(100, proteinPercent));
+                    
+                    // 确保存储的是 0-1 之间的小数
+                    adjustments[meal.id] = {
+                        carb: clampedCarb / 100,
+                        protein: clampedProtein / 100
+                    };
+                    
+                    // 确保值在 0-1 之间
+                    adjustments[meal.id].carb = Math.max(0, Math.min(1, adjustments[meal.id].carb));
+                    adjustments[meal.id].protein = Math.max(0, Math.min(1, adjustments[meal.id].protein));
+                    
+                    totalCarb += adjustments[meal.id].carb;
+                    totalProtein += adjustments[meal.id].protein;
+                }
+            });
+
+            // 如果总和不是1.0，按比例调整（但保持用户刚编辑的输入框不变）
+            if (Math.abs(totalCarb - 1.0) > 0.001 && type === 'carb' && editedMealId) {
+                // 保持用户刚编辑的值不变，调整其他餐次
+                const editedValue = adjustments[editedMealId].carb;
+                const otherTotal = totalCarb - editedValue;
+                
+                if (otherTotal > 0.001) {
+                    const scale = (1.0 - editedValue) / otherTotal;
+                    planConfig.meals.forEach(meal => {
+                        if (meal.id !== editedMealId && adjustments[meal.id]) {
+                            // 调整值，确保在 0-1 之间
+                            adjustments[meal.id].carb = Math.max(0, Math.min(1, adjustments[meal.id].carb * scale));
+                            const carbInput = document.getElementById(`adjust_${meal.id}_carb`);
+                            if (carbInput) {
+                                // 转换为百分比显示（0-100），直接使用数值避免精度问题
+                                const displayValue = Math.round(adjustments[meal.id].carb * 100 * 10) / 10;
+                                carbInput.value = displayValue % 1 === 0 ? displayValue.toString() : displayValue.toFixed(1);
+                            }
+                        }
+                    });
+                    totalCarb = 1.0;
+                }
+            } else if (Math.abs(totalCarb - 1.0) > 0.001) {
+                // 如果没有正在编辑的输入框，正常按比例调整所有值
+                planConfig.meals.forEach(meal => {
+                    if (adjustments[meal.id]) {
+                        // 调整值，确保在 0-1 之间
+                        adjustments[meal.id].carb = Math.max(0, Math.min(1, adjustments[meal.id].carb / totalCarb));
+                        const carbInput = document.getElementById(`adjust_${meal.id}_carb`);
+                        if (carbInput && carbInput !== editedInput) {
+                            // 转换为百分比显示（0-100），直接使用数值避免精度问题
+                            const displayValue = Math.round(adjustments[meal.id].carb * 100 * 10) / 10;
+                            carbInput.value = displayValue % 1 === 0 ? displayValue.toString() : displayValue.toFixed(1);
+                        }
+                    }
+                });
+                totalCarb = 1.0;
+            }
+
+            if (Math.abs(totalProtein - 1.0) > 0.001 && type === 'protein' && editedMealId) {
+                // 保持用户刚编辑的值不变，调整其他餐次
+                const editedValue = adjustments[editedMealId].protein;
+                const otherTotal = totalProtein - editedValue;
+                
+                if (otherTotal > 0.001) {
+                    const scale = (1.0 - editedValue) / otherTotal;
+                    planConfig.meals.forEach(meal => {
+                        if (meal.id !== editedMealId && adjustments[meal.id]) {
+                            // 调整值，确保在 0-1 之间
+                            adjustments[meal.id].protein = Math.max(0, Math.min(1, adjustments[meal.id].protein * scale));
+                            const proteinInput = document.getElementById(`adjust_${meal.id}_protein`);
+                            if (proteinInput) {
+                                // 转换为百分比显示（0-100），直接使用数值避免精度问题
+                                const displayValue = Math.round(adjustments[meal.id].protein * 100 * 10) / 10;
+                                proteinInput.value = displayValue % 1 === 0 ? displayValue.toString() : displayValue.toFixed(1);
+                            }
+                        }
+                    });
+                    totalProtein = 1.0;
+                }
+            } else if (Math.abs(totalProtein - 1.0) > 0.001) {
+                // 如果没有正在编辑的输入框，正常按比例调整所有值
+                planConfig.meals.forEach(meal => {
+                    if (adjustments[meal.id]) {
+                        // 调整值，确保在 0-1 之间
+                        adjustments[meal.id].protein = Math.max(0, Math.min(1, adjustments[meal.id].protein / totalProtein));
+                        const proteinInput = document.getElementById(`adjust_${meal.id}_protein`);
+                        if (proteinInput && proteinInput !== editedInput) {
+                            // 转换为百分比显示（0-100），直接使用数值避免精度问题
+                            const displayValue = Math.round(adjustments[meal.id].protein * 100 * 10) / 10;
+                            proteinInput.value = displayValue % 1 === 0 ? displayValue.toString() : displayValue.toFixed(1);
+                        }
+                    }
+                });
+                totalProtein = 1.0;
+            }
+
+            // 重新计算总和（调整后）
+            totalCarb = 0;
+            totalProtein = 0;
+            planConfig.meals.forEach(meal => {
+                if (adjustments[meal.id]) {
+                    totalCarb += adjustments[meal.id].carb;
+                    totalProtein += adjustments[meal.id].protein;
+                }
+            });
+
+            // 保存调整值
+            manualAdjustments = adjustments;
+
+            // 更新汇总信息
+            const summary = document.getElementById('adjustSummary');
+            if (summary) {
+                const carbTotal = Math.round(totalCarb * 1000) / 10;
+                const proteinTotal = Math.round(totalProtein * 1000) / 10;
+                const isError = Math.abs(carbTotal - 100) > 0.1 || Math.abs(proteinTotal - 100) > 0.1;
+                summary.textContent = `碳水总计: ${carbTotal}% | 蛋白质总计: ${proteinTotal}%`;
+                summary.className = isError ? 'adjust-summary error' : 'adjust-summary success';
+            }
+
+            // 如果已经计算过，重新计算以应用新比例
+            if (window.mealData) {
+                recalculateWithManualAdjustments();
+            }
+        }
+
+        // 使用手动调整重新计算
+        function recalculateWithManualAdjustments() {
+            if (Object.keys(manualAdjustments).length === 0) return;
+
+            const totalCarb = window.mealData.carb.total;
+            const totalProtein = window.mealData.protein.total;
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            
+            if (!planConfig) return;
+
+            const mealQuotas = {};
+            let totalCarbUsed = 0;
+
+            planConfig.meals.forEach(meal => {
+                // 确保 manualAdjustments 中的值是 0-1 之间的小数
+                let carbPercent = manualAdjustments[meal.id]?.carb;
+                let proteinPercent = manualAdjustments[meal.id]?.protein;
+                
+                // 如果 manualAdjustments 中的值大于1，说明是百分比形式，需要除以100
+                if (carbPercent !== undefined && carbPercent > 1) {
+                    carbPercent = carbPercent / 100;
+                } else if (carbPercent === undefined) {
+                    carbPercent = meal.carbPercent;
+                }
+                
+                if (proteinPercent !== undefined && proteinPercent > 1) {
+                    proteinPercent = proteinPercent / 100;
+                } else if (proteinPercent === undefined) {
+                    proteinPercent = meal.proteinPercent;
+                }
+                
+                // 确保值是 0-1 之间的小数
+                carbPercent = Math.max(0, Math.min(1, carbPercent));
+                proteinPercent = Math.max(0, Math.min(1, proteinPercent));
+                
+                const carbAmount = Math.round(totalCarb * carbPercent);
+                const proteinAmount = Math.round(totalProtein * proteinPercent);
+                
+                mealQuotas[meal.id] = {
+                    carb: carbAmount,
+                    protein: proteinAmount
+                };
+                
+                totalCarbUsed += carbAmount;
+                
+                // 更新DOM显示
+                const carbEl = document.getElementById(meal.id + 'Carb');
+                const proteinEl = document.getElementById(meal.id + 'Protein');
+                if (carbEl) {
+                    // carbPercent 和 proteinPercent 应该已经是 0-1 之间的小数（在上面的代码中已经处理过）
+                    // 直接使用它们来计算显示百分比
+                    const displayCarbPercentValue = Math.round(carbPercent * 100 * 10) / 10;
+                    const displayCarbPercent = displayCarbPercentValue % 1 === 0 ? displayCarbPercentValue.toString() : displayCarbPercentValue.toFixed(1);
+                    
+                    const displayProteinPercentValue = Math.round(proteinPercent * 100 * 10) / 10;
+                    const displayProteinPercent = displayProteinPercentValue % 1 === 0 ? displayProteinPercentValue.toString() : displayProteinPercentValue.toFixed(1);
+                    
+                    carbEl.textContent = carbAmount;
+                    // 更新百分比显示
+                    const mealCard = carbEl.closest('.meal-card');
+                    if (mealCard) {
+                        const amountDiv = mealCard.querySelector('.meal-amount');
+                        if (amountDiv) {
+                            amountDiv.innerHTML = `
+                                <div>碳水：<span id="${meal.id}Carb" style="font-weight: 600;">${carbAmount}</span> g (${displayCarbPercent}%)</div>
+                                <div>蛋白质：<span id="${meal.id}Protein" style="font-weight: 600;">${proteinAmount}</span> g (${displayProteinPercent}%)</div>
+                            `;
+                        }
+                    }
+                }
+                if (proteinEl) proteinEl.textContent = proteinAmount;
+            });
+
+            // 处理碳水剩余部分
+            const carbRemainder = totalCarb - totalCarbUsed;
+            if (carbRemainder !== 0 && mealQuotas.snack) {
+                mealQuotas.snack.carb += carbRemainder;
+                const snackCarbEl = document.getElementById('snackCarb');
+                if (snackCarbEl) snackCarbEl.textContent = mealQuotas.snack.carb;
+            }
+
+            // 更新保存的数据
+            const carbData = { total: totalCarb };
+            const proteinData = { total: totalProtein };
+            Object.keys(mealQuotas).forEach(mealId => {
+                carbData[mealId] = mealQuotas[mealId].carb;
+                proteinData[mealId] = mealQuotas[mealId].protein;
+            });
+            window.mealData = {
+                carb: carbData,
+                protein: proteinData
+            };
+        }
+
+        // 根据训练方案更新餐次显示
+        function updateMealDistribution() {
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            if (!planConfig) return;
+
+            const mealContainer = document.getElementById('mealContainer');
+            if (!mealContainer) return;
+
+            // 清空现有餐次卡片
+            mealContainer.innerHTML = '';
+
+            // 根据配置创建餐次卡片
+            planConfig.meals.forEach(meal => {
+                const mealCard = document.createElement('div');
+                mealCard.className = 'meal-card';
+                mealCard.onclick = function() {
+                    showMealFoods(meal.id);
+                };
+
+                // 使用手动调整的比例（如果有），否则使用默认比例
+                // 确保 manualAdjustments 中的值是 0-1 之间的小数
+                let carbPercent = manualAdjustments[meal.id]?.carb;
+                let proteinPercent = manualAdjustments[meal.id]?.protein;
+                
+                // 如果 manualAdjustments 中的值大于1，说明是百分比形式，需要除以100
+                // 如果值大于100，说明可能是被错误地乘以了100，需要除以10000
+                if (carbPercent !== undefined) {
+                    if (carbPercent > 100) {
+                        carbPercent = carbPercent / 10000;
+                    } else if (carbPercent > 1) {
+                        carbPercent = carbPercent / 100;
+                    }
+                } else {
+                    carbPercent = meal.carbPercent;
+                }
+                
+                if (proteinPercent !== undefined) {
+                    if (proteinPercent > 100) {
+                        proteinPercent = proteinPercent / 10000;
+                    } else if (proteinPercent > 1) {
+                        proteinPercent = proteinPercent / 100;
+                    }
+                } else {
+                    proteinPercent = meal.proteinPercent;
+                }
+                
+                // 确保值是 0-1 之间的小数
+                carbPercent = Math.max(0, Math.min(1, carbPercent));
+                proteinPercent = Math.max(0, Math.min(1, proteinPercent));
+                
+                // 转换为百分比显示（0-100），直接使用数值避免精度问题
+                const displayCarbPercentValue = Math.round(carbPercent * 100 * 10) / 10;
+                const displayCarbPercent = displayCarbPercentValue % 1 === 0 ? displayCarbPercentValue.toString() : displayCarbPercentValue.toFixed(1);
+                
+                const displayProteinPercentValue = Math.round(proteinPercent * 100 * 10) / 10;
+                const displayProteinPercent = displayProteinPercentValue % 1 === 0 ? displayProteinPercentValue.toString() : displayProteinPercentValue.toFixed(1);
+
+                const mealName = document.createElement('div');
+                mealName.className = 'meal-name';
+                mealName.textContent = meal.name;
+
+                const mealAmount = document.createElement('div');
+                mealAmount.className = 'meal-amount';
+                mealAmount.innerHTML = `
+                    <div>碳水：<span id="${meal.id}Carb" style="font-weight: 600;">0</span> g (${displayCarbPercent}%)</div>
+                    <div>蛋白质：<span id="${meal.id}Protein" style="font-weight: 600;">0</span> g (${displayProteinPercent}%)</div>
+                `;
+
+                mealCard.appendChild(mealName);
+                mealCard.appendChild(mealAmount);
+                mealContainer.appendChild(mealCard);
+            });
+
+            // 如果手动调整已开启，更新控件
+            const toggle = document.getElementById('manualAdjustToggle');
+            if (toggle && toggle.classList.contains('active')) {
+                createManualAdjustControls();
+            } else {
+                // 如果手动调整未开启，清空调整数据（确保切换方案时重置）
+                const currentPlan = document.getElementById('trainingPlan').value;
+                const currentConfig = trainingPlanConfig[currentPlan];
+                if (currentConfig) {
+                    // 检查是否有不属于当前方案的调整数据
+                    const hasInvalidAdjustments = Object.keys(manualAdjustments).some(mealId => 
+                        !currentConfig.meals.find(m => m.id === mealId)
+                    );
+                    if (hasInvalidAdjustments) {
+                        manualAdjustments = {};
+                    }
+                }
+            }
+        }
+
+        function calculate() {
+            // 使用全局缓存的DOM元素（已在autoCalculateQuota中定义）
+            const heightEl = document.getElementById('height');
+            const weightEl = document.getElementById('weight');
+            const genderEl = document.getElementById('gender');
+            
+            const height = parseFloat(heightEl.value);
+            const weight = parseFloat(weightEl.value);
+            const carbQuota = parseFloat(carbQuotaEl.value);
+            const proteinQuota = parseFloat(proteinQuotaEl.value);
+            const gender = genderEl.value;
+
+            // 验证输入
+            if (!gender) {
+                alert('请选择性别！');
+                return;
+            }
+
+            if (isNaN(height) || isNaN(weight) || isNaN(carbQuota) || isNaN(proteinQuota)) {
+                alert('请填写所有必填项！');
+                return;
+            }
+
+            if (height < 100 || height > 250) {
+                alert('请输入合理的身高（100-250cm）');
+                return;
+            }
+
+            if (weight < 30 || weight > 200) {
+                alert('请输入合理的体重（30-200kg）');
+                return;
+            }
+
+            if (carbQuota <= 0 || carbQuota > 10) {
+                alert('碳水配额计算异常，请检查输入');
+                return;
+            }
+
+            if (proteinQuota <= 0 || proteinQuota > 10) {
+                alert('蛋白质配额计算异常，请检查输入');
+                return;
+            }
+
+            // 检查数据是否加载
+            if (!nutritionData || !nutritionData.foods || !nutritionData.foods.碳水 || !nutritionData.foods.蛋白质) {
+                alert('食物数据未加载，请刷新页面重试');
+                return;
+            }
+
+            // 计算BMI（保留1位小数用于显示）
+            const heightM = height / 100;
+            const bmi = Math.round((weight / (heightM * heightM)) * 10) / 10;
+
+            // 计算总需求（四舍五入为整数）
+            const totalCarb = Math.round(carbQuota * weight);
+            const totalProtein = Math.round(proteinQuota * weight);
+
+            // 缓存结果DOM元素（优化：避免重复查询）
+            const bmiEl = document.getElementById('bmi');
+            const totalCarbEl = document.getElementById('totalCarb');
+            const totalProteinEl = document.getElementById('totalProtein');
+            
+            // 显示结果
+            bmiEl.textContent = bmi;
+            totalCarbEl.textContent = totalCarb;
+            totalProteinEl.textContent = totalProtein;
+
+            // 根据训练方案计算配额分配
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            
+            if (!planConfig) {
+                alert('请选择训练方案');
+                return;
+            }
+
+            // 计算各餐次配额（使用手动调整的比例，如果有）
+            const mealQuotas = {};
+            let totalCarbUsed = 0;
+            
+            planConfig.meals.forEach(meal => {
+                // 优先使用手动调整的比例
+                // 确保 manualAdjustments 中的值是 0-1 之间的小数
+                let carbPercent = manualAdjustments[meal.id]?.carb;
+                let proteinPercent = manualAdjustments[meal.id]?.protein;
+                
+                // 如果 manualAdjustments 中的值大于1，说明是百分比形式，需要除以100
+                // 如果值大于100，说明可能是被错误地乘以了100，需要除以10000
+                if (carbPercent !== undefined) {
+                    if (carbPercent > 100) {
+                        carbPercent = carbPercent / 10000;
+                    } else if (carbPercent > 1) {
+                        carbPercent = carbPercent / 100;
+                    }
+                } else {
+                    carbPercent = meal.carbPercent;
+                }
+                
+                if (proteinPercent !== undefined) {
+                    if (proteinPercent > 100) {
+                        proteinPercent = proteinPercent / 10000;
+                    } else if (proteinPercent > 1) {
+                        proteinPercent = proteinPercent / 100;
+                    }
+                } else {
+                    proteinPercent = meal.proteinPercent;
+                }
+                
+                // 确保值是 0-1 之间的小数
+                carbPercent = Math.max(0, Math.min(1, carbPercent));
+                proteinPercent = Math.max(0, Math.min(1, proteinPercent));
+                
+                const carbAmount = Math.round(totalCarb * carbPercent);
+                const proteinAmount = Math.round(totalProtein * proteinPercent);
+                
+                mealQuotas[meal.id] = {
+                    carb: carbAmount,
+                    protein: proteinAmount
+                };
+                
+                totalCarbUsed += carbAmount;
+                
+                // 更新DOM显示
+                const carbEl = document.getElementById(meal.id + 'Carb');
+                const proteinEl = document.getElementById(meal.id + 'Protein');
+                if (carbEl) {
+                    carbEl.textContent = carbAmount;
+                    // 更新百分比显示
+                    const mealCard = carbEl.closest('.meal-card');
+                    if (mealCard) {
+                        const amountDiv = mealCard.querySelector('.meal-amount');
+                        if (amountDiv) {
+                            // 转换为百分比显示（0-100），直接使用数值避免精度问题
+                            const displayCarbPercentValue = Math.round(carbPercent * 100 * 10) / 10;
+                            const displayCarbPercent = displayCarbPercentValue % 1 === 0 ? displayCarbPercentValue.toString() : displayCarbPercentValue.toFixed(1);
+                            
+                            const displayProteinPercentValue = Math.round(proteinPercent * 100 * 10) / 10;
+                            const displayProteinPercent = displayProteinPercentValue % 1 === 0 ? displayProteinPercentValue.toString() : displayProteinPercentValue.toFixed(1);
+                            
+                            amountDiv.innerHTML = `
+                                <div>碳水：<span id="${meal.id}Carb" style="font-weight: 600;">${carbAmount}</span> g (${displayCarbPercent}%)</div>
+                                <div>蛋白质：<span id="${meal.id}Protein" style="font-weight: 600;">${proteinAmount}</span> g (${displayProteinPercent}%)</div>
+                            `;
+                        }
+                    }
+                }
+                if (proteinEl) proteinEl.textContent = proteinAmount;
+            });
+
+            // 处理碳水剩余部分（由于四舍五入可能产生的误差）
+            const carbRemainder = totalCarb - totalCarbUsed;
+            if (carbRemainder !== 0 && mealQuotas.snack) {
+                mealQuotas.snack.carb += carbRemainder;
+                const snackCarbEl = document.getElementById('snackCarb');
+                if (snackCarbEl) snackCarbEl.textContent = mealQuotas.snack.carb;
+            }
+
+            // 保存餐次数据供切换显示使用
+            const carbData = { total: totalCarb };
+            const proteinData = { total: totalProtein };
+            Object.keys(mealQuotas).forEach(mealId => {
+                carbData[mealId] = mealQuotas[mealId].carb;
+                proteinData[mealId] = mealQuotas[mealId].protein;
+            });
+            window.mealData = {
+                carb: carbData,
+                protein: proteinData
+            };
+
+            // 不自动显示食物，等待用户点击餐次卡片
+            // 隐藏食物显示区域，直到用户点击餐次卡片
+            const foodSection = document.getElementById('foodSection');
+            foodSection.classList.remove('show');
+            foodSection.style.display = 'none';
+
+            // 显示结果区域
+            document.getElementById('results').classList.add('show');
+            
+            // 滚动到结果
+            setTimeout(() => {
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // 显示指定餐次的食物
+        function showMealFoods(mealType) {
+            if (!window.mealData) {
+                alert('请先进行计算');
+                return;
+            }
+
+            // 获取当前训练方案配置
+            const trainingPlan = document.getElementById('trainingPlan').value;
+            const planConfig = trainingPlanConfig[trainingPlan];
+            if (!planConfig) return;
+
+            // 查找对应的餐次配置
+            const mealConfig = planConfig.meals.find(meal => meal.id === mealType);
+            if (!mealConfig) return;
+
+            // 移除所有餐次卡片的active状态
+            const allMealCards = document.querySelectorAll('.meal-card');
+            allMealCards.forEach(card => card.classList.remove('active'));
+
+            // 添加当前餐次卡片的active状态
+            const mealCards = document.querySelectorAll('.meal-card');
+            planConfig.meals.forEach((meal, index) => {
+                if (meal.id === mealType && mealCards[index]) {
+                    mealCards[index].classList.add('active');
+                }
+            });
+
+            // 获取餐次数据
+            const mealData = window.mealData;
+            const carbAmount = mealData.carb[mealType] || 0;
+            const proteinAmount = mealData.protein[mealType] || 0;
+
+            // 缓存DOM元素（优化：避免重复查询）
+            const foodSection = document.getElementById('foodSection');
+            const foodSectionTitle = document.getElementById('foodSectionTitle');
+            const foodSectionHint = document.getElementById('foodSectionHint');
+            const carbFoods = document.getElementById('carbFoods');
+            const proteinFoods = document.getElementById('proteinFoods');
+
+            // 显示食物区域
+            foodSection.style.display = 'block';
+            foodSection.classList.add('show');
+            foodSectionTitle.textContent = `${mealConfig.name} 食物选择`;
+            foodSectionHint.textContent = `碳水: ${carbAmount}g | 蛋白质: ${proteinAmount}g`;
+
+            // 清空之前的内容和搜索
+            carbFoods.innerHTML = '';
+            proteinFoods.innerHTML = '';
+            const searchInput = document.getElementById('foodSearchInput');
+            const resultsInfo = document.getElementById('searchResultsInfo');
+            if (searchInput) searchInput.value = '';
+            if (resultsInfo) resultsInfo.style.display = 'none';
+
+            // 显示该餐次的碳水食物
+            if (carbAmount > 0) {
+                displayFoods('carb', carbAmount, nutritionData.foods.碳水, mealType);
+            } else {
+                carbFoods.innerHTML = '<p style="color: rgba(255, 255, 255, 0.5); padding: 20px;">该餐次无碳水需求</p>';
+            }
+
+            // 显示该餐次的蛋白质食物
+            if (proteinAmount > 0) {
+                displayFoods('protein', proteinAmount, nutritionData.foods.蛋白质, mealType);
+            } else {
+                proteinFoods.innerHTML = '<p style="color: rgba(255, 255, 255, 0.5); padding: 20px;">该餐次无蛋白质需求</p>';
+            }
+
+            // 滚动到食物区域
+            setTimeout(() => {
+                foodSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
+            // 初始化当前餐次的已选食物列表（如果不存在）
+            if (!selectedFoods[mealType]) {
+                selectedFoods[mealType] = [];
+            }
+            
+            // 显示已选食物区域
+            updateSelectedFoodsDisplay(mealType);
+        }
+
+        // 优化：使用DocumentFragment减少DOM操作
+        function displayFoods(type, totalAmount, foods, mealType) {
+            const container = document.getElementById(type === 'carb' ? 'carbFoods' : 'proteinFoods');
+            if (!container) {
+                return;
+            }
+            container.innerHTML = '';
+
+            if (!foods || !Array.isArray(foods) || foods.length === 0) {
+                container.innerHTML = '<p style="color: rgba(255, 255, 255, 0.5); padding: 20px;">暂无食物数据</p>';
+                return;
+            }
+
+            // 按子类别分组（优化：使用Map提高性能）
+            const categories = new Map();
+            for (const food of foods) {
+                if (!food || !food.subcategory || !food.name || !food.rate) {
+                    continue;
+                }
+                if (!categories.has(food.subcategory)) {
+                    categories.set(food.subcategory, []);
+                }
+                categories.get(food.subcategory).push(food);
+            }
+
+            // 使用DocumentFragment批量插入DOM（优化性能）
+            const fragment = document.createDocumentFragment();
+
+            categories.forEach((foodList, category) => {
+                // 按GI值排序：低 < 中 < 高，没有GI的放在最后
+                foodList.sort((a, b) => {
+                    const giOrder = { '低': 1, '中': 2, '高': 3 };
+                    const aGi = (a.gi && typeof a.gi === 'string' && giOrder[a.gi]) ? giOrder[a.gi] : 999;
+                    const bGi = (b.gi && typeof b.gi === 'string' && giOrder[b.gi]) ? giOrder[b.gi] : 999;
+                    return aGi - bGi;
+                });
+
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'food-category';
+                
+                const categoryTitle = document.createElement('h4');
+                categoryTitle.textContent = category;
+                categoryDiv.appendChild(categoryTitle);
+
+                const foodGrid = document.createElement('div');
+                foodGrid.className = 'food-grid';
+
+                // 批量创建食物卡片
+                for (const food of foodList) {
+                    const amount = Math.round(totalAmount / food.rate);
+                    if (amount <= 0) continue; // 跳过数量为0的食物
+                    
+                    const card = document.createElement('div');
+                    card.className = 'food-card addable';
+                    card.setAttribute('data-food-name', food.name.toLowerCase()); // 用于搜索
+                    card.onclick = function() {
+                        addFoodToMeal(mealType, food, type);
+                    };
+                    
+                    // 食物名称和GI标签
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'food-name';
+                    nameDiv.textContent = food.name;
+                    if (food.gi && typeof food.gi === 'string' && ['高', '中', '低'].includes(food.gi)) {
+                        const giBadge = document.createElement('span');
+                        giBadge.className = `gi-badge gi-${food.gi === '高' ? 'high' : food.gi === '中' ? 'medium' : 'low'}`;
+                        giBadge.textContent = `GI: ${food.gi}`;
+                        nameDiv.appendChild(giBadge);
+                    }
+                    card.appendChild(nameDiv);
+
+                    // 食物重量
+                    const amountDiv = document.createElement('div');
+                    amountDiv.className = 'food-amount';
+                    amountDiv.textContent = `${amount} g`;
+                    card.appendChild(amountDiv);
+
+                    // 食物信息
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'food-info';
+                    infoDiv.textContent = `营养率: ${Math.round(food.rate * 100)}%`;
+                    if (food.note) {
+                        const noteSpan = document.createElement('br');
+                        infoDiv.appendChild(noteSpan);
+                        infoDiv.appendChild(document.createTextNode(food.note));
+                    }
+                    card.appendChild(infoDiv);
+
+                    foodGrid.appendChild(card);
+                }
+
+                categoryDiv.appendChild(foodGrid);
+                fragment.appendChild(categoryDiv);
+            });
+
+            container.appendChild(fragment);
+        }
+
+        // 添加食物到当前餐次
+        function addFoodToMeal(mealType, food, type) {
+            if (!selectedFoods[mealType]) {
+                selectedFoods[mealType] = [];
+            }
+
+            // 检查食物是否已经添加
+            const existingIndex = selectedFoods[mealType].findIndex(
+                item => item.food.name === food.name && item.type === type
+            );
+
+            if (existingIndex >= 0) {
+                // 如果已存在，不做任何操作（避免重复添加）
+                return;
+            } else {
+                // 默认数量为0，用户添加后再手动调整
+                selectedFoods[mealType].push({
+                    food: food,
+                    quantity: 0,
+                    type: type
+                });
+            }
+
+            updateSelectedFoodsDisplay(mealType);
+        }
+
+        // 从餐次中删除食物
+        function removeFoodFromMeal(mealType, index) {
+            if (selectedFoods[mealType] && selectedFoods[mealType][index]) {
+                selectedFoods[mealType].splice(index, 1);
+                updateSelectedFoodsDisplay(mealType);
+            }
+        }
+
+        // 更新食物数量
+        function updateFoodQuantity(mealType, index, quantity) {
+            if (selectedFoods[mealType] && selectedFoods[mealType][index]) {
+                selectedFoods[mealType][index].quantity = Math.max(0, Math.round(quantity));
+                updateSelectedFoodsDisplay(mealType);
+            }
+        }
+
+        // 计算已选食物的总营养值
+        function calculateSelectedFoodsNutrition(mealType) {
+            if (!selectedFoods[mealType] || selectedFoods[mealType].length === 0) {
+                return { carb: 0, protein: 0 };
+            }
+
+            let totalCarb = 0;
+            let totalProtein = 0;
+
+            selectedFoods[mealType].forEach(item => {
+                const nutrition = item.quantity * item.food.rate; // 营养值 = 重量(g) * 营养率
+                if (item.type === 'carb') {
+                    totalCarb += nutrition;
+                } else if (item.type === 'protein') {
+                    totalProtein += nutrition;
+                }
+            });
+
+            return {
+                carb: Math.round(totalCarb * 10) / 10,
+                protein: Math.round(totalProtein * 10) / 10
+            };
+        }
+
+        // 显示已选食物列表
+        function updateSelectedFoodsDisplay(mealType) {
+            const selectedSection = document.getElementById('selectedFoodsSection');
+            const selectedList = document.getElementById('selectedFoodsList');
+            const selectedCarbSummary = document.getElementById('selectedCarbSummary');
+            const selectedProteinSummary = document.getElementById('selectedProteinSummary');
+
+            if (!selectedSection || !selectedList || !window.mealData) {
+                return;
+            }
+
+            if (!selectedFoods[mealType] || selectedFoods[mealType].length === 0) {
+                selectedSection.style.display = 'none';
+                return;
+            }
+
+            selectedSection.style.display = 'block';
+
+            // 计算总营养值
+            const totalNutrition = calculateSelectedFoodsNutrition(mealType);
+            const mealData = window.mealData;
+            const targetCarb = mealData.carb[mealType] || 0;
+            const targetProtein = mealData.protein[mealType] || 0;
+
+            // 更新摘要
+            selectedCarbSummary.textContent = `${totalNutrition.carb} / ${targetCarb} g`;
+            selectedProteinSummary.textContent = `${totalNutrition.protein} / ${targetProtein} g`;
+
+            // 更新摘要样式
+            selectedCarbSummary.className = 'selected-foods-summary-value';
+            if (Math.abs(totalNutrition.carb - targetCarb) < 1) {
+                selectedCarbSummary.classList.add('target-met');
+            } else if (totalNutrition.carb > targetCarb * 1.1) {
+                selectedCarbSummary.classList.add('target-exceeded');
+            }
+
+            selectedProteinSummary.className = 'selected-foods-summary-value';
+            if (Math.abs(totalNutrition.protein - targetProtein) < 1) {
+                selectedProteinSummary.classList.add('target-met');
+            } else if (totalNutrition.protein > targetProtein * 1.1) {
+                selectedProteinSummary.classList.add('target-exceeded');
+            }
+
+            // 清空列表
+            selectedList.innerHTML = '';
+
+            // 生成已选食物列表
+            selectedFoods[mealType].forEach((item, index) => {
+                const foodItem = document.createElement('div');
+                foodItem.className = 'selected-food-item';
+
+                const nutrition = item.quantity * item.food.rate;
+                const nutritionText = item.type === 'carb' 
+                    ? `碳水: ${Math.round(nutrition * 10) / 10}g`
+                    : `蛋白质: ${Math.round(nutrition * 10) / 10}g`;
+
+                foodItem.innerHTML = `
+                    <div class="selected-food-info">
+                        <div class="selected-food-name">${item.food.name}</div>
+                        <div class="selected-food-nutrition">${nutritionText} | 营养率: ${Math.round(item.food.rate * 100)}%</div>
+                    </div>
+                    <div class="selected-food-controls">
+                        <div class="selected-food-quantity">
+                            <input type="number" 
+                                   value="${item.quantity}" 
+                                   min="0" 
+                                   step="1"
+                                   onchange="updateFoodQuantity('${mealType}', ${index}, parseInt(this.value) || 0)">
+                        </div>
+                        <button class="delete-food-btn" onclick="removeFoodFromMeal('${mealType}', ${index})">删除</button>
+                    </div>
+                `;
+
+                selectedList.appendChild(foodItem);
+            });
+        }
+
+        // 搜索食物功能
+        function searchFoods(searchTerm) {
+            const searchInput = document.getElementById('foodSearchInput');
+            const resultsInfo = document.getElementById('searchResultsInfo');
+            const carbFoods = document.getElementById('carbFoods');
+            const proteinFoods = document.getElementById('proteinFoods');
+            
+            if (!searchTerm || searchTerm.trim() === '') {
+                // 清空搜索，显示所有食物
+                const allCards = document.querySelectorAll('.food-card');
+                const allCategories = document.querySelectorAll('.food-category');
+                allCards.forEach(card => {
+                    card.classList.remove('highlight', 'hidden');
+                });
+                allCategories.forEach(category => {
+                    category.classList.remove('hidden');
+                });
+                resultsInfo.style.display = 'none';
+                return;
+            }
+
+            const searchLower = searchTerm.toLowerCase().trim();
+            let matchCount = 0;
+            let firstMatchCard = null;
+
+            // 搜索碳水食物
+            const carbCards = carbFoods.querySelectorAll('.food-card');
+            const carbCategories = carbFoods.querySelectorAll('.food-category');
+            let carbHasMatch = false;
+
+            carbCategories.forEach(category => {
+                const categoryCards = category.querySelectorAll('.food-card');
+                let categoryHasMatch = false;
+
+                categoryCards.forEach(card => {
+                    const foodName = card.getAttribute('data-food-name') || '';
+                    if (foodName.includes(searchLower)) {
+                        card.classList.add('highlight');
+                        card.classList.remove('hidden');
+                        categoryHasMatch = true;
+                        carbHasMatch = true;
+                        matchCount++;
+                        if (!firstMatchCard) {
+                            firstMatchCard = card;
+                        }
+                    } else {
+                        card.classList.remove('highlight');
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // 如果类别中有匹配项，显示类别；否则隐藏
+                if (categoryHasMatch) {
+                    category.classList.remove('hidden');
+                } else {
+                    category.classList.add('hidden');
+                }
+            });
+
+            // 搜索蛋白质食物
+            const proteinCards = proteinFoods.querySelectorAll('.food-card');
+            const proteinCategories = proteinFoods.querySelectorAll('.food-category');
+            let proteinHasMatch = false;
+
+            proteinCategories.forEach(category => {
+                const categoryCards = category.querySelectorAll('.food-card');
+                let categoryHasMatch = false;
+
+                categoryCards.forEach(card => {
+                    const foodName = card.getAttribute('data-food-name') || '';
+                    if (foodName.includes(searchLower)) {
+                        card.classList.add('highlight');
+                        card.classList.remove('hidden');
+                        categoryHasMatch = true;
+                        proteinHasMatch = true;
+                        matchCount++;
+                        if (!firstMatchCard) {
+                            firstMatchCard = card;
+                        }
+                    } else {
+                        card.classList.remove('highlight');
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // 如果类别中有匹配项，显示类别；否则隐藏
+                if (categoryHasMatch) {
+                    category.classList.remove('hidden');
+                } else {
+                    category.classList.add('hidden');
+                }
+            });
+
+            // 显示搜索结果信息
+            if (matchCount > 0) {
+                resultsInfo.textContent = `找到 ${matchCount} 个匹配的食物`;
+                resultsInfo.style.display = 'block';
+                resultsInfo.style.color = 'rgba(100, 255, 100, 0.8)';
+                
+                // 滚动到第一个匹配项
+                if (firstMatchCard) {
+                    setTimeout(() => {
+                        firstMatchCard.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }, 100);
+                }
+            } else {
+                resultsInfo.textContent = '未找到匹配的食物';
+                resultsInfo.style.display = 'block';
+                resultsInfo.style.color = 'rgba(255, 100, 100, 0.8)';
+            }
+        }
+
+        // 页面加载完成后的初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            // 初始化餐次显示
+            updateMealDistribution();
+        });
+    </script>
+</body>
+</html>
+
+

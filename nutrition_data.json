@@ -1,0 +1,599 @@
+{
+  "foods": {
+    "碳水": [
+      {
+        "subcategory": "米类主食",
+        "name": "生米",
+        "rate": 0.75,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米饭（很软）",
+        "rate": 0.25,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米饭（一般）",
+        "rate": 0.3,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米饭（偏硬）",
+        "rate": 0.35,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米粥（稀）",
+        "rate": 0.1,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米粥（一般）",
+        "rate": 0.13,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米线（熟）",
+        "rate": 0.33,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "米糊（生）",
+        "rate": 0.75,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "肠粉（熟）",
+        "rate": 0.2,
+        "gi": "高"
+      },
+      {
+        "subcategory": "米类主食",
+        "name": "粽子",
+        "rate": 0.5,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "切片面包",
+        "rate": 0.5,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "馒头/花卷/馍/馕",
+        "rate": 0.5,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "挂面（生）",
+        "rate": 0.75,
+        "gi": "中"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "意面（生）",
+        "rate": 0.75,
+        "gi": "低"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "鲜面（生）",
+        "rate": 0.6,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "凉面（熟）",
+        "rate": 0.3,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "粗面（熟）",
+        "rate": 0.3,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "意面（熟）",
+        "rate": 0.3,
+        "gi": "低"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "细面（熟）",
+        "rate": 0.23,
+        "gi": "高"
+      },
+      {
+        "subcategory": "麦类主食",
+        "name": "卷饼/烙饼/馕（熟）",
+        "rate": 0.5,
+        "gi": "高"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "红薯（生/蒸煮）",
+        "rate": 0.18,
+        "gi": "高"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "红薯（烤）",
+        "rate": 0.23,
+        "gi": "高"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "土豆（生/蒸煮）",
+        "rate": 0.18,
+        "gi": "中"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "土豆（烤）",
+        "rate": 0.23,
+        "gi": "高"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "红薯/土豆粉丝（生）",
+        "rate": 0.84,
+        "gi": "低"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "甜玉米（生/蒸煮）",
+        "rate": 0.2,
+        "gi": "中"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "糯玉米（生/蒸煮）",
+        "rate": 0.35,
+        "gi": "高"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "贝贝南瓜",
+        "rate": 0.21,
+        "gi": "中"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "传统南瓜",
+        "rate": 0.05,
+        "gi": "中"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "山药（生/蒸煮）",
+        "rate": 0.12,
+        "gi": "中"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "藕粉（生）",
+        "rate": 0.9,
+        "gi": "低"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "燕麦麸皮（生）",
+        "rate": 0.45,
+        "gi": "低"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "速食燕麦片（生）",
+        "rate": 0.6,
+        "gi": "高"
+      },
+      {
+        "subcategory": "其他主食",
+        "name": "速食黑麦片（生）",
+        "rate": 0.6,
+        "gi": "高"
+      },
+      {
+        "subcategory": "方便食品",
+        "name": "五谷道场方便面",
+        "rate": 0.65,
+        "gi": "中"
+      },
+      {
+        "subcategory": "方便食品",
+        "name": "辛拉面（普通版）",
+        "rate": 0.65,
+        "gi": "中"
+      },
+      {
+        "subcategory": "方便食品",
+        "name": "辛拉面（空空面版）",
+        "rate": 0.65,
+        "gi": "中"
+      },
+      {
+        "subcategory": "方便食品",
+        "name": "康力快熟意大利面",
+        "rate": 0.32,
+        "gi": "低"
+      },
+      {
+        "subcategory": "方便食品",
+        "name": "白家陈记酸辣粉丝",
+        "rate": 0.6,
+        "gi": "低"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "切片面包",
+        "rate": 0.5,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "旺仔小馒头（46g装）",
+        "rate": 0.88,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "旺仔QQ糖",
+        "rate": 0.72,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "十月稻田饭团",
+        "rate": 0.25,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "红螺牌驴打滚",
+        "rate": 0.86,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "山西烤馍",
+        "rate": 0.7,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "非油炸干脆面",
+        "rate": 0.75,
+        "gi": "中"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "BHB熟板栗",
+        "rate": 0.35,
+        "gi": "中"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "云片糕/桃片",
+        "rate": 0.8,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "米花糖",
+        "rate": 0.85,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "娃哈哈八宝粥",
+        "rate": 0.13,
+        "gi": "高"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "宝矿力运动饮料",
+        "rate": 0.06,
+        "gi": "中"
+      },
+      {
+        "subcategory": "便携碳水",
+        "name": "脉动运动饮料",
+        "rate": 0.05,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "干枣",
+        "rate": 0.5,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "鲜枣",
+        "rate": 0.3,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "椰肉",
+        "rate": 0.3,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "榴莲",
+        "rate": 0.28,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "菠萝蜜",
+        "rate": 0.26,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "香蕉",
+        "rate": 0.22,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "提子",
+        "rate": 0.17,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "荔枝",
+        "rate": 0.17,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "桂圆",
+        "rate": 0.17,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "猕猴桃",
+        "rate": 0.15,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "苹果",
+        "rate": 0.13,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "梨",
+        "rate": 0.13,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "车厘子",
+        "rate": 0.13,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "火龙果",
+        "rate": 0.13,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "芒果",
+        "rate": 0.13,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "桑葚",
+        "rate": 0.13,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "葡萄",
+        "rate": 0.12,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "橘子",
+        "rate": 0.12,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "橙子",
+        "rate": 0.11,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "桃",
+        "rate": 0.1,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "柚子",
+        "rate": 0.1,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "樱桃",
+        "rate": 0.1,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "西梅",
+        "rate": 0.1,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "枇杷",
+        "rate": 0.09,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "李子",
+        "rate": 0.09,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "杏",
+        "rate": 0.09,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "哈密瓜",
+        "rate": 0.08,
+        "gi": "高"
+      },
+      {
+        "subcategory": "水果",
+        "name": "西瓜",
+        "rate": 0.07,
+        "gi": "高"
+      },
+      {
+        "subcategory": "水果",
+        "name": "木瓜",
+        "rate": 0.07,
+        "gi": "中"
+      },
+      {
+        "subcategory": "水果",
+        "name": "圣女果（小番茄）",
+        "rate": 0.06,
+        "gi": "低"
+      },
+      {
+        "subcategory": "水果",
+        "name": "西红柿（大番茄）",
+        "rate": 0.03,
+        "gi": "低"
+      }
+    ],
+    "蛋白质": [
+      {
+        "subcategory": "干净蛋白质",
+        "name": "瘦肉（鱼虾生肉）",
+        "rate": 0.15,
+        "gi": "主要来源"
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "瘦肉（三文鱼/金枪鱼）",
+        "rate": 0.2,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "瘦肉（家禽家畜生肉）",
+        "rate": 0.2,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "瘦肉（一般的熟肉）",
+        "rate": 0.25,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "瘦肉（柴感的熟肉）",
+        "rate": 0.3,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "瘦肉干",
+        "rate": 0.4,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "蛋白粉",
+        "rate": 0.75,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "干黄豆",
+        "rate": 0.35,
+        "gi": "碰到了可吃"
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "鲜黄豆/毛豆/青豆",
+        "rate": 0.13,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "豆皮/千张",
+        "rate": 0.35,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "豆腐",
+        "rate": 0.07,
+        "gi": null
+      },
+      {
+        "subcategory": "干净蛋白质",
+        "name": "豆浆",
+        "rate": 0.03,
+        "gi": "可忽略不计"
+      },
+      {
+        "subcategory": "蛋奶",
+        "name": "鸡蛋",
+        "rate": 0.12,
+        "gi": null,
+        "note": "约6g蛋白质/个"
+      },
+      {
+        "subcategory": "蛋奶",
+        "name": "牛奶",
+        "rate": 0.03,
+        "gi": null,
+        "note": "约10g蛋白质/250ml"
+      },
+      {
+        "subcategory": "蛋奶",
+        "name": "酸奶",
+        "rate": 0.05,
+        "gi": null,
+        "note": "约10g蛋白质/200ml"
+      }
+    ]
+  }
+}
