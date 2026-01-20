@@ -43,9 +43,10 @@ build/
 .env
 .env.local
 
-# Excel files (optional - uncomment if you don't want to track Excel files)
-# *.xlsx
-# *.xls
+# Excel files (exclude large template files)
+*.xlsx
+*.xls
+!quota_config.json
 
 # Generated icons (optional - uncomment if you want to regenerate icons)
 # icons/*.png
