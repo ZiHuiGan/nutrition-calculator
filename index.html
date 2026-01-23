@@ -1075,32 +1075,82 @@
 
             /* 调整控制区域优化 */
             .meal-adjust-controls {
-                padding: 20px;
+                padding: 20px 16px;
                 border-radius: 14px;
                 margin-top: 20px;
             }
 
             .adjust-meal-item {
-                padding: 16px;
-                margin-bottom: 12px;
-                border-radius: 12px;
+                padding: 20px 16px;
+                margin-bottom: 16px;
+                border-radius: 14px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
             }
 
             .adjust-meal-label {
-                font-size: 15px;
-                min-width: 90px;
+                font-size: 16px;
+                font-weight: 600;
+                min-width: auto;
+                width: 100%;
+                margin-bottom: 4px;
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            .adjust-input-group {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+
+            .adjust-input-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .adjust-input-item label {
+                font-size: 14px;
+                font-weight: 500;
+                min-width: auto;
+                color: rgba(255, 255, 255, 0.7);
+                display: flex;
+                align-items: center;
+                gap: 4px;
             }
 
             .adjust-input-item input {
-                min-height: 48px;
-                font-size: 16px;
-                padding: 12px 14px;
+                min-height: 52px;
+                font-size: 18px;
+                font-weight: 500;
+                padding: 14px 18px;
+                border-radius: 12px;
+                width: 100%;
+                text-align: center;
+                -webkit-appearance: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .adjust-input-item input:focus {
+                border-color: rgba(255, 255, 255, 0.5);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            /* 百分比符号样式 - 在移动端显示在标签后面 */
+            .adjust-input-item span {
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.7);
+                font-weight: 500;
             }
 
             .adjust-summary {
-                padding: 14px;
-                font-size: 14px;
-                margin-top: 12px;
+                padding: 16px;
+                font-size: 15px;
+                font-weight: 500;
+                margin-top: 16px;
+                border-radius: 12px;
             }
 
             /* 搜索区域优化 */
@@ -2266,11 +2316,11 @@
                 carbInput.onblur = function() {
                     validateAndAdjustPercentages(this, 'carb');
                 };
-                carbInputItem.appendChild(carbLabel);
-                carbInputItem.appendChild(carbInput);
                 const carbUnit = document.createElement('span');
                 carbUnit.textContent = '%';
-                carbInputItem.appendChild(carbUnit);
+                carbLabel.appendChild(carbUnit);
+                carbInputItem.appendChild(carbLabel);
+                carbInputItem.appendChild(carbInput);
 
                 // 蛋白质百分比输入
                 const proteinInputItem = document.createElement('div');
@@ -2307,11 +2357,11 @@
                 proteinInput.onblur = function() {
                     validateAndAdjustPercentages(this, 'protein');
                 };
-                proteinInputItem.appendChild(proteinLabel);
-                proteinInputItem.appendChild(proteinInput);
                 const proteinUnit = document.createElement('span');
                 proteinUnit.textContent = '%';
-                proteinInputItem.appendChild(proteinUnit);
+                proteinLabel.appendChild(proteinUnit);
+                proteinInputItem.appendChild(proteinLabel);
+                proteinInputItem.appendChild(proteinInput);
 
                 inputGroup.appendChild(carbInputItem);
                 inputGroup.appendChild(proteinInputItem);
