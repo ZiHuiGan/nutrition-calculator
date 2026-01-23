@@ -18,19 +18,19 @@
     <meta property="og:title" content="减脂期营养计算器 - 科学计算每日营养需求">
     <meta property="og:description" content="根据身高体重自动计算减脂期每日碳水、蛋白质需求，推荐食物搭配，助力科学减脂">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-app-url.vercel.app">
-    <meta property="og:image" content="https://your-app-url.vercel.app/icons/icon-512.png">
+    <meta property="og:url" content="https://nutrition-calculator-pwa.vercel.app">
+    <meta property="og:image" content="https://nutrition-calculator-pwa.vercel.app/icons/icon-512.png">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="减脂期营养计算器">
     <meta name="twitter:description" content="科学计算减脂期每日营养需求，推荐食物搭配">
-    <meta name="twitter:image" content="https://your-app-url.vercel.app/icons/icon-512.png">
+    <meta name="twitter:image" content="https://nutrition-calculator-pwa.vercel.app/icons/icon-512.png">
     
     <!-- WeChat / QQ -->
     <meta itemprop="name" content="减脂期营养计算器">
     <meta itemprop="description" content="根据身高体重自动计算减脂期每日碳水、蛋白质需求">
-    <meta itemprop="image" content="https://your-app-url.vercel.app/icons/icon-512.png">
+    <meta itemprop="image" content="https://nutrition-calculator-pwa.vercel.app/icons/icon-512.png">
     
     <!-- PWA meta tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -802,96 +802,376 @@
             margin-bottom: 8px;
         }
 
-        /* 移动端优化 */
+        /* 移动端优化 - iPhone 15 Pro Max 及以下设备 */
         @media (max-width: 768px) {
+            /* 基础布局优化 */
             .input-group {
                 flex-wrap: wrap;
+                gap: 16px;
             }
 
             .input-item {
                 min-width: 100%;
+                margin-bottom: 0;
             }
 
             .input-item.quota-group {
                 min-width: 100%;
+                gap: 16px;
             }
 
+            .input-item.quota-group > div {
+                flex: 1;
+                min-width: 0;
+            }
+
+            /* 头部优化 */
             .header {
-                padding: 40px 20px 30px;
-                padding-top: max(40px, env(safe-area-inset-top, 40px));
+                padding: 32px 20px 28px;
+                padding-top: max(32px, env(safe-area-inset-top, 32px));
             }
 
             .header h1 {
-                font-size: 32px;
+                font-size: 28px;
+                line-height: 1.3;
+                margin-bottom: 10px;
             }
 
+            .header p {
+                font-size: 15px;
+                line-height: 1.5;
+            }
+
+            /* 内容区域优化 */
             .content {
-                padding: 30px 20px;
-                padding-bottom: max(30px, env(safe-area-inset-bottom, 30px));
+                padding: 24px 16px;
+                padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
             }
 
             .input-section {
-                padding: 30px 20px;
+                padding: 24px 16px;
             }
 
-            /* 确保按钮足够大，易于触摸 */
+            /* 按钮优化 - 更大的触摸目标 */
             .calculate-btn {
-                min-height: 48px;
-                padding: 16px 24px;
-                font-size: 18px;
+                min-height: 52px;
+                padding: 16px 32px;
+                font-size: 17px;
+                font-weight: 600;
+                border-radius: 14px;
+                -webkit-tap-highlight-color: transparent;
             }
 
-            /* 输入框和选择框优化 */
+            /* 输入框和选择框优化 - 防止iOS自动缩放 */
             input[type="number"],
             input[type="text"],
             select {
-                min-height: 48px;
-                font-size: 16px; /* 防止iOS自动缩放 */
-                padding: 12px 16px;
+                min-height: 52px;
+                font-size: 16px; /* 16px 防止 iOS 自动缩放 */
+                padding: 14px 18px;
+                border-radius: 12px;
+                -webkit-appearance: none;
+                -webkit-tap-highlight-color: transparent;
             }
 
-            /* 食物卡片触摸优化 */
-            .food-card {
+            select {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffffff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 18px center;
+                padding-right: 44px;
+            }
+
+            /* 标签优化 */
+            .input-item label {
+                font-size: 14px;
+                margin-bottom: 10px;
+                font-weight: 500;
+            }
+
+            /* 结果区域优化 */
+            .summary {
+                padding: 28px 20px;
+                border-radius: 18px;
+                margin-bottom: 24px;
+            }
+
+            .summary h2 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .summary-item {
+                padding: 20px;
+                border-radius: 14px;
+            }
+
+            .summary-item .value {
+                font-size: 32px;
+            }
+
+            /* 餐次分布优化 */
+            .meal-distribution {
+                padding: 28px 20px;
+                border-radius: 18px;
+                margin-bottom: 24px;
+            }
+
+            .meal-distribution h3 {
+                font-size: 22px;
+                margin-bottom: 20px;
+                padding-bottom: 16px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .manual-adjust-toggle {
+                font-size: 14px;
+            }
+
+            .toggle-switch {
+                width: 48px;
+                height: 26px;
+                min-width: 48px;
+            }
+
+            .toggle-switch::after {
+                width: 22px;
+                height: 22px;
+            }
+
+            .toggle-switch.active::after {
+                transform: translateX(22px);
+            }
+
+            /* 餐次卡片优化 - 更大的触摸目标 */
+            .meal-card {
                 min-height: 120px;
                 padding: 20px;
+                border-radius: 14px;
+                -webkit-tap-highlight-color: transparent;
+                cursor: pointer;
             }
 
-            .meal-card {
+            .meal-card:active {
+                transform: scale(0.98);
+                background: rgba(255, 255, 255, 0.12);
+            }
+
+            .meal-name {
+                font-size: 17px;
+                margin-bottom: 12px;
+            }
+
+            .meal-amount {
+                font-size: 15px;
+                line-height: 1.6;
+            }
+
+            /* 食物卡片优化 */
+            .food-section {
+                margin-bottom: 32px;
+            }
+
+            .food-section h3 {
+                font-size: 22px;
+                margin-bottom: 20px;
+                padding-bottom: 16px;
+            }
+
+            .food-card {
                 min-height: 100px;
-                padding: 20px;
+                padding: 18px;
+                border-radius: 14px;
+                margin-bottom: 12px;
+                -webkit-tap-highlight-color: transparent;
+                cursor: pointer;
+            }
+
+            .food-card:active {
+                transform: scale(0.98);
+                background: rgba(255, 255, 255, 0.12);
+            }
+
+            .food-name {
+                font-size: 17px;
+                margin-bottom: 8px;
+            }
+
+            .food-nutrition {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            /* 已选食物区域优化 */
+            .selected-foods-section {
+                padding: 24px 18px;
+                border-radius: 18px;
+                margin-bottom: 24px;
+            }
+
+            .selected-foods-header h4 {
+                font-size: 20px;
+            }
+
+            .selected-foods-summary {
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .selected-foods-summary-item {
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .selected-foods-list {
+                gap: 12px;
+            }
+
+            .selected-food-item {
+                gap: 14px;
+                padding: 18px 16px;
+                border-radius: 14px;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .selected-food-name {
+                font-size: 17px;
+                margin-bottom: 8px;
+            }
+
+            .selected-food-nutrition {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            /* 数量输入框优化 */
+            .selected-food-quantity {
+                min-width: 100px;
+            }
+
+            .selected-food-quantity input {
+                min-height: 48px;
+                font-size: 16px;
+                padding: 12px 14px;
+                border-radius: 10px;
+                text-align: center;
+                -webkit-tap-highlight-color: transparent;
             }
 
             /* 删除按钮优化 */
             .delete-food-btn {
-                min-height: 44px;
-                min-width: 60px;
-                padding: 10px 16px;
+                min-height: 48px;
+                min-width: 48px;
+                padding: 12px 16px;
+                font-size: 14px;
+                border-radius: 10px;
+                -webkit-tap-highlight-color: transparent;
             }
 
-            /* 数量输入框优化 */
-            .selected-food-quantity input {
-                min-height: 44px;
+            /* 调整控制区域优化 */
+            .meal-adjust-controls {
+                padding: 20px;
+                border-radius: 14px;
+                margin-top: 20px;
+            }
+
+            .adjust-meal-item {
+                padding: 16px;
+                margin-bottom: 12px;
+                border-radius: 12px;
+            }
+
+            .adjust-meal-label {
+                font-size: 15px;
+                min-width: 90px;
+            }
+
+            .adjust-input-item input {
+                min-height: 48px;
                 font-size: 16px;
+                padding: 12px 14px;
             }
 
-            /* 字体大小优化 */
-            .food-name {
-                font-size: 18px;
+            .adjust-summary {
+                padding: 14px;
+                font-size: 14px;
+                margin-top: 12px;
             }
 
-            .selected-food-name {
-                font-size: 18px;
+            /* 搜索区域优化 */
+            .food-search {
+                margin-bottom: 24px;
             }
 
-            /* 触摸目标间距 */
-            .selected-food-item {
-                gap: 16px;
-                padding: 20px 16px;
+            .food-search input {
+                min-height: 52px;
+                font-size: 16px;
+                padding: 14px 18px;
+                border-radius: 12px;
             }
 
-            /* 防止双击缩放 */
+            /* 提示文本优化 */
+            .input-hint {
+                font-size: 13px;
+                margin-top: 12px;
+                line-height: 1.5;
+            }
+
+            /* 防止双击缩放和优化触摸体验 */
             * {
                 touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* 优化滚动体验 */
+            body {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+            }
+
+            /* 优化网格布局 */
+            #mealContainer {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            /* 食物分类标题优化 */
+            .food-category h4 {
+                font-size: 18px;
+                margin: 24px 0 16px;
+            }
+        }
+
+        /* iPhone 15 Pro Max 特定优化 (430px+ 宽度) */
+        @media (max-width: 768px) and (min-width: 430px) {
+            .content {
+                padding: 28px 20px;
+            }
+
+            .input-section {
+                padding: 28px 20px;
+            }
+
+            .summary {
+                padding: 32px 24px;
+            }
+
+            .meal-distribution {
+                padding: 32px 24px;
+            }
+
+            .selected-foods-section {
+                padding: 28px 22px;
+            }
+
+            /* 餐次卡片可以两列显示 */
+            #mealContainer {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
