@@ -341,15 +341,25 @@
 
         .meal-adjust-controls {
             display: none;
-            margin-top: 24px;
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
+            background: #1c1c1e;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .meal-adjust-controls.show {
             display: block;
+        }
+
+        .meal-adjust-controls h3 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: -0.3px;
         }
 
         .adjust-meal-item {
@@ -1073,11 +1083,17 @@
                 -webkit-tap-highlight-color: transparent;
             }
 
-            /* 调整控制区域优化 */
+            /* 调整控制区域优化 - 独立区域 */
             .meal-adjust-controls {
-                padding: 20px 16px;
-                border-radius: 14px;
-                margin-top: 20px;
+                padding: 28px 20px;
+                border-radius: 18px;
+                margin-bottom: 24px;
+            }
+
+            .meal-adjust-controls h3 {
+                font-size: 22px;
+                margin-bottom: 20px;
+                padding-bottom: 16px;
             }
 
             .adjust-meal-item {
@@ -1219,6 +1235,14 @@
                 padding: 28px 22px;
             }
 
+            .meal-adjust-controls {
+                padding: 32px 24px;
+            }
+
+            .meal-adjust-controls h3 {
+                font-size: 24px;
+            }
+
             /* 餐次卡片可以两列显示 */
             #mealContainer {
                 grid-template-columns: repeat(2, 1fr);
@@ -1326,9 +1350,10 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;" id="mealContainer">
                         <!-- 餐次卡片将由JavaScript动态生成 -->
                     </div>
-                    <div class="meal-adjust-controls" id="mealAdjustControls">
-                        <!-- 手动调整控件将由JavaScript动态生成 -->
-                    </div>
+                </div>
+
+                <div class="meal-adjust-controls" id="mealAdjustControls">
+                    <!-- 手动调整控件将由JavaScript动态生成 -->
                 </div>
 
                 <div class="food-section" id="foodSection">
@@ -2268,6 +2293,11 @@
 
             const controls = document.getElementById('mealAdjustControls');
             controls.innerHTML = '';
+
+            // 添加标题
+            const title = document.createElement('h3');
+            title.textContent = '手动调整配餐比例';
+            controls.appendChild(title);
 
             // 为每个餐次创建调整控件
             planConfig.meals.forEach(meal => {
